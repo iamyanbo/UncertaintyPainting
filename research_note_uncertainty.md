@@ -29,13 +29,11 @@ You asked if there are other ways to calculate uncertainty besides Entropy. Yes,
 *   **Pros:** Fast single-pass.
 *   **Cons:** Only captures "Aleatoric" uncertainty (noise), not "Epistemic" (model ignorance). Requires retraining.
 
-## Recommendation for this Project
+## Conclusion
 
-1.  **Start with Entropy:** It's the fastest baseline.
-2.  **Upgrade to MC Dropout:** Easy to implement with the current pre-trained model. I can add a flag to the `UncertaintyPainter` to enable this.
-3.  **Research Goal (Evidential):** If you want a "substantive research project," implementing **Evidential Deep Learning** is a great direction because it requires modifying the loss function and training, which adds technical depth.
+The choice of uncertainty method depends on the balance between computational cost and the type of uncertainty required (Aleatoric vs. Epistemic).
 
-Which direction would you like to go?
-1.  Stick with **Entropy** (Fastest, Baseline).
-2.  Switch to **MC Dropout** (Better quality, no retraining, slower).
-3.  Pivot to **Evidential** (Research depth, requires training 2D net).
+*   **Entropy:** Fastest baseline, captures total uncertainty but conflates data and model uncertainty.
+*   **MC Dropout:** Captures epistemic uncertainty without retraining, at the cost of inference speed.
+*   **Evidential Deep Learning:** Theoretially robust, separates uncertainty types, but requires custom training losses.
+

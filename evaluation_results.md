@@ -40,7 +40,7 @@ The uncertainty-painted features use **Shannon entropy** to quantify prediction 
 
 
 $$
-H = -\sum_{i=1}^{K} p_i \log(p_i)
+H(p) = - \sum_{k=1}^{K} p^{(k)} \log(p^{(k)})
 $$
 
 **Observation:** Shannon entropy produces **high uncertainty values at pedestrian edges**.
