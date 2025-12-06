@@ -5,12 +5,12 @@ This repository implements **Uncertainty-Aware Feature Painting**, a novel seque
 ## Visual Pipeline Results
 
 ### 1. Uncertainty Estimation (2D)
-The top row shows the input image. The middle row displays the **Predicted Semantic Classes**. The bottom row visualizes the **Predictive Uncertainty (Entropy)**, where brighter colors indicate higher uncertainty (e.g., object boundaries).
+The validation image is shown on the **Left**. The **Middle** panel displays the **Predicted Semantic Classes**. The **Right** panel visualizes the **Predictive Uncertainty (Entropy)**, where brighter colors indicate higher uncertainty (e.g., object boundaries).
 
 ![2D Uncertainty Estimation](assets/test_uncertainty_result.png)
 
 ### 2. Painted Point Cloud (3D)
-Here we see the 3D LiDAR point cloud "painted" with the fusion features (Class Semantic + Uncertainty). This rich feature set helps the detector discern objects even with sparse LiDAR data.
+Here we see the 3D LiDAR point cloud "painted" with the fusion features (Class Semantic + Uncertainty).
 
 ![Painted Point Cloud](assets/view_result_000015.png)
 
@@ -49,17 +49,18 @@ We evaluated our method on the **KITTI Validation Set** using the PointPillars b
 
 The table below shows the Average Precision (AP) for 3D detection. Our method (Uncertainty-Painted) is compared against the standard PointPillars baseline and the original PaintedPointPillars (PointPainting).
 
-```diff
-Method                                     | mAP (Mod.)  | Car (Mod.) | Pedestrian (Mod.) | Cyclist (Mod.)
---------------------------------------------------------------------------------------------------------
-PointPillars [11]                          | 73.78       | 87.57      | 67.84             | 65.92
-PaintedPointPillars (PointPainting)        | 76.27       | 87.65      | 72.41             | 68.76
-Delta (Painted vs Base)                    | +2.50       | +0.08      | +4.57             | +2.84
---------------------------------------------------------------------------------------------------------
-Uncertainty-Painted PointPillars (Ours)    | 76.52       | 87.81      | 59.56             | 82.20
-Delta (Ours vs Base)                       | +2.74       | +0.24      | -8.28             | +16.28
-Delta (Ours vs Painted)                    | +0.25       | +0.16      | -12.85            | +13.44
-```
+### Comparison Table: 3D Object Detection on KITTI Validation Set
+
+The table below shows the Average Precision (AP) for 3D detection. Our method (Uncertainty-Painted) is compared against the standard PointPillars baseline and the original PaintedPointPillars (PointPainting).
+
+| Method | mAP (Mod.) | Car (Mod.) | Pedestrian (Mod.) | Cyclist (Mod.) |
+| :--- | :--- | :--- | :--- | :--- |
+| **PointPillars** [11] | 73.78 | 87.57 | 67.84 | 65.92 |
+| **PaintedPointPillars** (PointPainting) | 76.27 | 87.65 | 72.41 | 68.76 |
+| **Delta (Painted vs Base)** | $\color{green}{+2.50}$ | $\color{red}{-0.08}$ | $\color{green}{+4.57}$ | $\color{green}{+2.84}$ |
+| **Uncertainty-Painted PointPillars** (Ours) | **76.52** | **87.81** | **59.56** | **82.20** |
+| **Delta (Ours vs Base)** | $\color{green}{+2.74}$ | $\color{green}{+0.24}$ | $\color{red}{-8.28}$ | $\color{green}{+16.28}$ |
+| **Delta (Ours vs Painted)** | $\color{green}{+0.25}$ | $\color{green}{+0.16}$ | $\color{red}{-12.85}$ | $\color{green}{+13.44}$ |
 
 > **Detailed Metrics:**
 > *   **Car (Easy/Mod/Hard):** 90.10 / 87.81 / 84.46
