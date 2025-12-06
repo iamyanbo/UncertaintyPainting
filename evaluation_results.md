@@ -72,36 +72,11 @@ $$
 | **Dataset** | KITTI Object Detection (train/val split) |
 | **Training Samples** | 5,979 (after removing corrupted samples) |
 | **Validation Samples** | 1,497 |
-| **Features per Point** | 26 (x, y, z, intensity + 21 class probs + 1 entropy) |
-| **Epochs** | 80 |
-| **Batch Size** | 4 |
-| **Optimizer** | Adam OneCycle (LR: 0.003) |
-| **Checkpoint** | `checkpoint_epoch_80.pth` |
-
-Note: for PointPainting paper, training was done using 6733, and validated on the rest 784.
-
-### Hardware Specifications
-
-| Component | Specification |
-|-----------|---------------|
-| **GPU** | NVIDIA GeForce RTX 3060 Ti (8 GB VRAM) |
 | **CPU** | AMD Ryzen 5 5600X 6-Core Processor |
 | **RAM** | 48 GB (16 GB + 32 GB) |
 | **OS** | Windows 10/11 |
 | **CUDA** | 12.4 |
 | **PyTorch** | 2.6.0 |
-
-### Training Time
-
-| Model | Training Time | Time per Epoch |
-|-------|---------------|----------------|
-| **PointPillars** | ~11 hours | ~8.5 min |
-| **SECOND** | ~13 hours 10 min | ~10 min |
-| **PointRCNN** | (TODO: Update after training) | ~TBD |
-
----
-
-## Raw Evaluation Metrics (Our Model)
 
 ### Car Detection (IoU = 0.70)
 | Metric | Easy | Moderate | Hard |

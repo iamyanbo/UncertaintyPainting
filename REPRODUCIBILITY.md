@@ -135,13 +135,7 @@ python train.py --cfg_file cfgs/kitti_models/second_painted_full.yaml --batch_si
 
 **Expected time:** ~12-15 hours on RTX 3060 Ti
 
-### 4.3 Train PointRCNN
 
-```bash
-python train.py --cfg_file cfgs/kitti_models/pointrcnn_painted_full.yaml --batch_size 4 --epochs 80
-```
-
-**Expected time:** ~15-20 hours on RTX 3060 Ti
 
 ---
 
@@ -163,13 +157,7 @@ python test.py --cfg_file cfgs/kitti_models/second_painted_full.yaml \
     --ckpt ../output/kitti_models/second_painted_full/default/ckpt/checkpoint_epoch_80.pth
 ```
 
-### 5.3 Evaluate PointRCNN
 
-```bash
-python test.py --cfg_file cfgs/kitti_models/pointrcnn_painted_full.yaml \
-    --batch_size 4 \
-    --ckpt ../output/kitti_models/pointrcnn_painted_full/default/ckpt/checkpoint_epoch_80.pth
-```
 
 **Results** are saved to:
 ```
@@ -205,7 +193,7 @@ If training crashes with `KeyError: 'road_plane'`:
 |-------|------------|-------------------|----------------|
 | **Uncertainty-Painted PointPillars** | 87.81 | 59.56 | 82.20 |
 | **Uncertainty-Painted SECOND** | TBD | TBD | TBD |
-| **Uncertainty-Painted PointRCNN** | TBD | TBD | TBD |
+
 
 ---
 
