@@ -1,0 +1,19 @@
+# Datasets and Large Files
+data/
+*.pth
+*.pkl
+*.npy
+
+# System and Logs
+__pycache__/
+*.log
+.DS_Store
+.idea/
+.vscode/
+*.egg-info/
+dist/
+build/
+
+# Notebooks and Temp
+.ipynb_checkpoints/
+tmp/
