@@ -1,7 +1,5 @@
 # Uncertainty Estimation Methods: Alternatives to Entropy
 
-You asked if there are other ways to calculate uncertainty besides Entropy. Yes, there are several, ranging from simple inference tricks to completely different model architectures.
-
 ## 1. Monte Carlo (MC) Dropout (Bayesian Approximation)
 *   **Concept:** Dropout is usually turned off during inference. If you keep it **on** and run the image through the network $N$ times (e.g., 10 times), you get 10 slightly different predictions.
 *   **Calculation:**
