@@ -209,20 +209,3 @@ If training crashes with `KeyError: 'road_plane'`:
 
 ---
 
-## Citation
-
-If you use this code, please cite:
-
-```bibtex
-@article{uncertainty_painting2025,
-  title={Uncertainty-Aware Feature Painting for 3D Object Detection},
-  author={YOUR NAME},
-  year={2025}
-}
-```
-
----
-
-## License
-
-This project is released under the MIT License.
