@@ -1,8 +1,8 @@
 import torch
 import os
 
-ckpt_path = 'OpenPCDet/output/kitti_models/pointpillar_painted_full/default/ckpt/checkpoint_epoch_80.pth'
-clean_ckpt_path = 'OpenPCDet/output/kitti_models/pointpillar_painted_full/default/ckpt/checkpoint_epoch_80_clean.pth'
+ckpt_path = 'OpenPCDet/output/kitti_models/second_painted_full/default/ckpt/checkpoint_epoch_80.pth'
+clean_ckpt_path = 'OpenPCDet/output/kitti_models/second_painted_full/default/ckpt/checkpoint_epoch_80_clean.pth'
 
 import numpy
 print(f"NumPy Version: {numpy.__version__}")

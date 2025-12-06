@@ -8,10 +8,16 @@
 |--------|------------|----------|----------|----------|-----------|-----------|-----------|-----------|-----------|-----------|
 | **PointPillars** [11] | 73.78 | 90.09 | 87.57 | 86.03 | 71.97 | 67.84 | 62.41 | 85.74 | 65.92 | 62.40 |
 | **PaintedPointPillars** (PointPainting) | 76.27 | 90.01 | 87.65 | 85.56 | 77.25 | 72.41 | 67.53 | 81.72 | 68.76 | 63.99 |
-| **Delta (Painted vs Base)** | <span style="color:green">+2.50</span> | <span style="color:red">-0.08</span> | <span style="color:green">+0.08</span> | <span style="color:red">-0.47</span> | <span style="color:green">+5.28</span> | <span style="color:green">+4.57</span> | <span style="color:green">+5.12</span> | <span style="color:red">-4.02</span> | <span style="color:green">+2.84</span> | <span style="color:green">+1.59</span> |
+| **Delta (Painted vs Base)** | 🟢 (+2.50) | 🔴 (-0.08) | 🟢 (+0.08) | 🔴 (-0.47) | 🟢 (+5.28) | 🟢 (+4.57) | 🟢 (+5.12) | 🔴 (-4.02) | 🟢 (+2.84) | 🟢 (+1.59) |
 | **Uncertainty-Painted PointPillars** (Ours) | **76.52** | **90.10** | **87.81** | **84.46** | **63.57** | **59.56** | **57.05** | **85.80** | **82.20** | **76.68** |
-| **Delta (Ours vs Base)** | <span style="color:green">+2.74</span> | <span style="color:green">+0.01</span> | <span style="color:green">+0.24</span> | <span style="color:red">-1.57</span> | <span style="color:red">-8.40</span> | <span style="color:red">-8.28</span> | <span style="color:red">-5.36</span> | <span style="color:green">+0.06</span> | <span style="color:green">+16.28</span> | <span style="color:green">+14.28</span> |
-| **Delta (Ours vs Painted)** | <span style="color:green">+0.25</span> | <span style="color:green">+0.09</span> | <span style="color:green">+0.16</span> | <span style="color:red">-1.10</span> | <span style="color:red">-13.68</span> | <span style="color:red">-12.85</span> | <span style="color:red">-10.48</span> | <span style="color:green">+4.08</span> | <span style="color:green">+13.44</span> | <span style="color:green">+12.69</span> |
+| **Delta (Ours vs Base)** | 🟢 (+2.74) | 🟢 (+0.01) | 🟢 (+0.24) | 🔴 (-1.57) | 🔴 (-8.40) | 🔴 (-8.28) | 🔴 (-5.36) | 🟢 (+0.06) | 🟢 (+16.28) | 🟢 (+14.28) |
+| **Delta (Ours vs Painted)** | 🟢 (+0.25) | 🟢 (+0.09) | 🟢 (+0.16) | 🔴 (-1.10) | 🔴 (-13.68) | 🔴 (-12.85) | 🔴 (-10.48) | 🟢 (+4.08) | 🟢 (+13.44) | 🟢 (+12.69) |
+| **VoxelNet (SECOND)** [34] | 71.83 | 89.87 | 87.29 | 86.30 | 70.08 | 62.44 | 55.02 | 85.48 | 65.77 | 58.97 |
+| **PaintedVoxelNet** (PointPainting) | 73.55 | 90.05 | 87.51 | 86.66 | 73.16 | 65.05 | 57.33 | 87.46 | 68.08 | 65.59 |
+| **Delta (Painted vs Base)** | 🟢 (+1.71) | 🟢 (+0.18) | 🟢 (+0.22) | 🟢 (+0.36) | 🟢 (+3.08) | 🟢 (+2.61) | 🟢 (+2.31) | 🟢 (+1.98) | 🟢 (+2.31) | 🟢 (+6.62) |
+| **Uncertainty-Painted SECOND** (Ours) | **79.08** | **97.10** | **88.63** | **86.41** | **69.26** | **67.19** | **65.00** | **88.15** | **81.43** | **79.85** |
+| **Delta (Ours vs Base)** | 🟢 (+7.25) | 🟢 (+7.23) | 🟢 (+1.34) | 🟢 (+0.11) | 🔴 (-0.82) | 🟢 (+4.75) | 🟢 (+9.98) | 🟢 (+2.67) | 🟢 (+15.66) | 🟢 (+20.88) |
+| **Delta (Ours vs Painted)** | 🟢 (+5.53) | 🟢 (+7.05) | 🟢 (+1.12) | 🔴 (-0.25) | 🔴 (-3.90) | 🟢 (+2.14) | 🟢 (+7.67) | 🟢 (+0.69) | 🟢 (+13.35) | 🟢 (+14.26) |
 
 > **Note:** All values are 3D AP (%) at standard KITTI IoU thresholds (Car: 0.70, Pedestrian: 0.50, Cyclist: 0.50)
 
@@ -64,13 +70,15 @@ $$
 | Parameter | Value |
 |-----------|-------|
 | **Dataset** | KITTI Object Detection (train/val split) |
-| **Training Samples** | ~5,979 (after removing corrupted samples) |
-| **Validation Samples** | ~1,500 |
+| **Training Samples** | 5,979 (after removing corrupted samples) |
+| **Validation Samples** | 1,497 |
 | **Features per Point** | 26 (x, y, z, intensity + 21 class probs + 1 entropy) |
 | **Epochs** | 80 |
 | **Batch Size** | 4 |
 | **Optimizer** | Adam OneCycle (LR: 0.003) |
 | **Checkpoint** | `checkpoint_epoch_80.pth` |
+
+Note: for PointPainting paper, training was done using 6733, and validated on the rest 784.
 
 ### Hardware Specifications
 
@@ -88,7 +96,7 @@ $$
 | Model | Training Time | Time per Epoch |
 |-------|---------------|----------------|
 | **PointPillars** | ~11 hours | ~8.5 min |
-| **SECOND** | (TODO: Update after training) | ~TBD |
+| **SECOND** | ~13 hours 10 min | ~10 min |
 | **PointRCNN** | (TODO: Update after training) | ~TBD |
 
 ---
