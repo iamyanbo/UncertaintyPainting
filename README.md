@@ -70,16 +70,15 @@ The table below shows the Average Precision (AP) for 3D detection. Our method (U
 
 ---
 
-## Discussion & Analysis
+## Analysis
 
-### 1. The "Cyclist" Anomaly: Superior Performance
-Our method achieves a remarkable **+16.28%** improvement in Cyclist detection for PointPillars and **+15.66%** for SECOND compared to their respective baselines.
+### Cyclist Performance
+Our method achieves a remarkable **+16.28%** improvement in Cyclist detection for PointPillars and **+15.66%** for SECOND compared to their respective baselines. Because the model is inherently uncertain for cyclists, the entropy can give meaningful info where the model can learn that higher entropy associated with cyclists is actually a cyclist.
 
-**Hypothesis:**
-*   **Information from Uncertainty:** While standard semantic classification often struggles with cyclists (producing weak or incorrect class scores), the uncertainty estimation provides a **high and often unique cluster of uncertainty**.
-*   **Unique Signature:** Since the model is not good at detecting cyclists, it generates a distinct uncertainty pattern. This signature acts as a new feature that the 3D detector can learn to recognize, effectively "highlighting" the object even when the class probability is low.
+### Pedestrian Performance
+It is important to note that the model **only performed worse for PointPillars** regarding pedestrians (-8.28% for PointPillars), whereas it improved for SECOND (+4.75%). The drop in pedestrian performance for PointPillars is attributed to **edge uncertainty**. There is often high uncertainty distributed around the edges of the person. This ambiguous signal at the boundaries may cause the model to **mislearn**, effectively confusing the detector or leading it to filter out valid points as noise.
 
-### 2. Impact of Training Data Discrepancy
+### Impact of Training Data Discrepancy
 It is important to note the difference in training set size compared to the original PointPainting paper:
 
 *   **Original PointPainting Paper:** ~6,733 training samples (standard train/val split).
@@ -89,8 +88,15 @@ We removed corrupted files and used a slightly cleaner split, resulting in **~11
 1.  **State-of-the-art comparable results on Cars**, demonstrating high data efficiency.
 2.  **Superior performance on Cyclists**, suggesting that uncertainty features act as a strong regularizer, allowing the model to generalize better even with less data.
 
-### 3. Pedestrian Performance 
-The drop in pedestrian performance (e.g., -8.28% for PointPillars) is attributed to **edge uncertainty**. There is often high uncertainty distributed around the edges of the person. This ambiguous signal at the boundaries may cause the model to **mislearn**, effectively confusing the detector or leading it to filter out valid points as noise.
+---
+
+## Future Work
+
+To address the edge uncertainty issue observed in Pedestrian detection, several improvements could be explored:
+
+1.  **Uncertainty-Weighted Loss**: Modifying the loss function to down-weight predictions for points with high uncertainty, preventing the model from being penalized for ambiguous boundary labels.
+2.  **Soft-Painting**: Instead of concatenating uncertainty as a raw feature, use it as a soft attention mask to gate the semantic features.
+3.  **Alternative Uncertainty Methods**: Investigating **Monte Carlo Dropout** (for epistemic uncertainty) or **Evidential Deep Learning** (for single-pass uncertainty separation) as potential replacements for standard Shannon Entropy.
 
 ---
 
@@ -99,3 +105,10 @@ The drop in pedestrian performance (e.g., -8.28% for PointPillars) is attributed
 For detailed instructions on running the pipeline, please refer to:
 *   [**Pipeline Guide**](PIPELINE_GUIDE.md): Directory structure and script usage.
 *   [**Reproducibility Guide**](REPRODUCIBILITY.md): Environment setup, training commands, and config parameters.
+
+---
+
+## Acknowledgements
+
+This project is built upon the [OpenPCDet](https://github.com/open-mmlab/OpenPCDet) toolbox. We thank the authors for their open-source contribution to the 3D object detection community.
+
