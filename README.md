@@ -92,11 +92,7 @@ We removed corrupted files and used a slightly cleaner split, resulting in **~11
 
 ## Future Work
 
-To address the edge uncertainty issue observed in Pedestrian detection, several improvements could be explored:
-
-1.  **Uncertainty-Weighted Loss**: Modifying the loss function to down-weight predictions for points with high uncertainty, preventing the model from being penalized for ambiguous boundary labels.
-2.  **Soft-Painting**: Instead of concatenating uncertainty as a raw feature, use it as a soft attention mask to gate the semantic features.
-3.  **Alternative Uncertainty Methods**: Investigating **Monte Carlo Dropout** (for epistemic uncertainty) or **Evidential Deep Learning** (for single-pass uncertainty separation) as potential replacements for standard Shannon Entropy.
+To address the edge uncertainty issue observed in Pedestrian detection and to explore different uncertainty approaches, please refer to [**research_note_uncertainty.md**](research_note_uncertainty.md) for detailed alternative methods and research directions.
 
 ---
 
