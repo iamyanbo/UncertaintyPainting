@@ -1,0 +1,130 @@
+\documentclass{article}
+\usepackage{amsmath, amssymb}
+\usepackage{geometry}
+\geometry{a4paper, margin=1in}
+
+\title{Uncertainty-Aware Feature Painting: Technical Architecture \& Details}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+\section{System Architecture Diagram}
+% Note: The Mermaid diagram cannot be directly rendered in standard LaTeX without external tools.
+% Please refer to the GitHub repository for the visual diagram.
+\textbf{[Refer to System Architecture Diagram in Repository]}
+
+\section{Mathematical Formulation}
+
+\subsection{2D Uncertainty Estimation (Entropy-Based)}
+Given an input image $I$, the 2D network outputs a probability distribution over $K$ classes for each pixel $(u, v)$.
+Let $p_{u,v} \in \mathbb{R}^K$ be the softmax probability vector at pixel $(u, v)$.
+
+The \textbf{predictive uncertainty} $U_{u,v}$ is quantified using Shannon Entropy:
+\begin{equation}
+U_{u,v} = H(p_{u,v}) = - \sum_{k=1}^{K} p_{u,v}^{(k)} \log(p_{u,v}^{(k)})
+\end{equation}
+
+\begin{itemize}
+    \item \textbf{Low Entropy (near 0):} The model is confident (one class has probability $\approx 1$).
+    \item \textbf{High Entropy:} The model is uncertain (probabilities are spread out, e.g., uniform distribution).
+\end{itemize}
+
+\subsection{LiDAR-to-Image Projection}
+To associate a 3D LiDAR point $P_{lidar} = (x, y, z, 1)^T$ with a 2D pixel $(u, v)$, we use the calibration matrices:
+
+1. \textbf{Extrinsic:} Transform LiDAR to Camera coordinates.
+\begin{equation}
+P_{cam} = T_{velo \to cam} \times P_{lidar}
+\end{equation}
+
+2. \textbf{Intrinsic:} Project Camera coordinates to Image plane.
+\begin{equation}
+P_{img} = P_{rect} \times R_{rect}^{(0)} \times P_{cam}
+\end{equation}
+\begin{equation}
+\begin{bmatrix} u' \\ v' \\ w' \end{bmatrix} = P_{img}
+\end{equation}
+\begin{equation}
+u = u'/w', \quad v = v'/w'
+\end{equation}
+
+\subsection{Feature Painting}
+For each valid LiDAR point projecting to $(u, v)$ inside the image bounds:
+\begin{enumerate}
+    \item Sample the Class Probability vector $C = p_{u,v}$ (Size $K$).
+    \item Sample the Uncertainty Scalar $U = U_{u,v}$ (Size $1$).
+    \item Construct the Augmented Point vector:
+    \begin{equation}
+    P'_{point} = [x, y, z, r, C_1, ..., C_K, U]
+    \end{equation}
+    Total dimensions: $4 + K + 1$.
+\end{enumerate}
+
+\section{Network Modifications}
+
+\subsection{2D Network (The "Painter")}
+\begin{itemize}
+    \item \textbf{Architecture:} DeepLabV3+ with ResNet50 or ResNet101 backbone.
+    \item \textbf{Pre-training:} Cityscapes or KITTI Semantic Segmentation dataset.
+    \item \textbf{Inference:}
+    \begin{itemize}
+        \item Standard: Single forward pass $\to$ Softmax $\to$ Entropy.
+        \item \textit{Advanced (Optional):} MC Dropout. Perform $T$ forward passes with dropout on.
+        \begin{equation}
+        U_{u,v} = \text{Var}(\{p_{u,v}^{(t)}\}_{t=1}^T)
+        \end{equation}
+    \end{itemize}
+\end{itemize}
+
+\subsection{3D Network (The "Detector")}
+\begin{itemize}
+    \item \textbf{Architecture:} PointPillars (Fast) or VoxelNet (Accurate).
+    \item \textbf{Input Layer Modification:}
+    \begin{itemize}
+        \item Standard PointPillars VFE (Voxel Feature Encoder) takes $(x, y, z, r, x_c, y_c, z_c, x_p, y_p)$.
+        \item \textbf{Modified VFE:} Must accept $(x, y, z, r, C_1...C_K, U, ...)$.
+        \item The initial Linear Layer (MLP) size increases from $N_{in}$ to $N_{in} + K + 1$.
+    \end{itemize}
+    \item \textbf{Attention Mechanism (Implicit vs Explicit):}
+    \begin{itemize}
+        \item \textit{Implicit:} The network learns weights for the extra channels. If $U$ is high, it might learn to downweight the $C$ features.
+        \item \textit{Explicit (Future Work):} Design a specific gate layer $G = \sigma(W \cdot U)$ to scale the semantic features before VFE.
+    \end{itemize}
+\end{itemize}
+
+\section{Data Flow \& Tensor Shapes}
+\begin{enumerate}
+    \item \textbf{Input Image:} $(B, 3, H, W)$
+    \item \textbf{Segmentation Output:} $(B, K, H, W)$
+    \item \textbf{Uncertainty Map:} $(B, 1, H, W)$
+    \item \textbf{Input Point Cloud:} $(B, N_{points}, 4)$
+    \item \textbf{Painted Point Cloud:} $(B, N_{points}, 4 + K + 1)$
+    \item \textbf{Voxelization:} Points are grouped into pillars/voxels.
+    \item \textbf{3D Backbone Output:} $(B, C_{feat}, H_{grid}, W_{grid})$
+    \item \textbf{Detection Head:} $(B, N_{anchors} \times (7+Dir), H_{grid}, W_{grid})$
+\end{enumerate}
+
+\section{Implementation Strategy}
+\begin{enumerate}
+    \item \textbf{Step 1: Offline Painting Script}
+    \begin{itemize}
+        \item Don't try to do this on-the-fly during training initially.
+        \item Write a script \texttt{create\_painted\_kitti.py} that reads KITTI data, runs segmentation, projects, and saves \texttt{.npy} or \texttt{.bin} files of the painted clouds.
+        \item This speeds up 3D training significantly.
+    \end{itemize}
+    \item \textbf{Step 2: OpenPCDet Config}
+    \begin{itemize}
+        \item Clone a standard PointPillars config.
+        \item Modify \texttt{POINT\_CLOUD\_RANGE} if needed.
+        \item \textbf{Crucial:} Update \texttt{NUM\_POINT\_FEATURES} in the dataset config and model config to include the extra dimensions.
+    \end{itemize}
+    \item \textbf{Step 3: Training}
+    \begin{itemize}
+        \item Train on the offline-painted dataset.
+        \item Monitor loss convergence compared to baseline.
+    \end{itemize}
+\end{enumerate}
+
+\end{document}
