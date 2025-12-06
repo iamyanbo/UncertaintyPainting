@@ -72,13 +72,12 @@ The table below shows the Average Precision (AP) for 3D detection. Our method (U
 
 ## Discussion & Analysis
 
-### 1. The "Cyclist" Anomaly: Why +16.28%?
-Our method achieves a remarkable **+16.28%** improvement in Cyclist detection compared to the baseline, and outperforms standard PointPainting by **+13.44%**. 
+### 1. The "Cyclist" Anomaly: Superior Performance
+Our method achieves a remarkable **+16.28%** improvement in Cyclist detection for PointPillars and **+15.66%** for SECOND compared to their respective baselines.
 
 **Hypothesis:**
-*   **Structural Consistency:** unlike pedestrians, cyclists (and their bikes) have rigid, consistent structures and distinct silhouettes.
-*   **Uncertainty Correlation:** The segmentation network is likely highly confident (low entropy) in the center of the bike/rider mass and highly uncertain (high entropy) only at the very distinct outer edges. This creates a high-quality, high-contrast "uncertainty signal" that the 3D detector can easily leverage to define the object's extent.
-*   **Information Density:** The combination of bicycle mechanics and human rider provides a dense cluster of painted points with coherent uncertainty signatures, effectively "highlighting" the object in 3D space.
+*   **Information from Uncertainty:** While standard semantic classification often struggles with cyclists (producing weak or incorrect class scores), the uncertainty estimation provides a **high and often unique cluster of uncertainty**.
+*   **Unique Signature:** Since the model is not good at detecting cyclists, it generates a distinct uncertainty pattern. This signature acts as a new feature that the 3D detector can learn to recognize, effectively "highlighting" the object even when the class probability is low.
 
 ### 2. Impact of Training Data Discrepancy
 It is important to note the difference in training set size compared to the original PointPainting paper:
@@ -91,7 +90,7 @@ We removed corrupted files and used a slightly cleaner split, resulting in **~11
 2.  **Superior performance on Cyclists**, suggesting that uncertainty features act as a strong regularizer, allowing the model to generalize better even with less data.
 
 ### 3. Pedestrian Performance 
-The drop in pedestrian performance (-8.28%) is attributed to **edge-noise amplification**. Pedestrians have irregular silhouettes (clothing, limbs), leading to high-frequency uncertainty noise at the boundaries. Without specific attention mechanisms to gate this noise, the 3D detector may be penalizing these "uncertain" points too heavily.
+The drop in pedestrian performance (e.g., -8.28% for PointPillars) is attributed to **edge uncertainty**. There is often high uncertainty distributed around the edges of the person. This ambiguous signal at the boundaries may cause the model to **mislearn**, effectively confusing the detector or leading it to filter out valid points as noise.
 
 ---
 
