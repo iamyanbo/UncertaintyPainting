@@ -4,29 +4,36 @@
 
 ```mermaid
 graph LR
-    L[LiDAR Point Cloud (N, 4)] --> P[Projection Module]
-    I[Camera Image (H, W, 3)] --> S[2D Segmentation Net]
+    %% Inputs
+    L["LiDAR Point Cloud (N, 4)"] --> P[Projection Module]
+    I["Camera Image (H, W, 3)"] --> S[2D Segmentation Net]
     
+    %% Subgraphs
     subgraph "2D Uncertainty Estimation"
-        S --> Logits[Logits (H, W, K)]
+        direction TB
+        S --> Logits["Logits (H, W, K)"]
         Logits --> Softmax
         Softmax --> Entropy[Entropy Calc]
-        Entropy --> UMap[Uncertainty Map (H, W, 1)]
-        Softmax --> CMap[Class Probabilities (H, W, K)]
+        Entropy --> UMap["Uncertainty Map (H, W, 1)"]
+        Softmax --> CMap["Class Probabilities (H, W, K)"]
     end
     
     subgraph "Feature Painting (Fusion)"
+        direction TB
         P -- "Projected (u,v)" --> Sampler[Bilinear Sampling]
         UMap --> Sampler
         CMap --> Sampler
-        Sampler --> F[Features (N, K+1)]
+        Sampler --> F["Features (N, K+1)"]
+        
+        %% Use invisible edge to enforcing ordering if needed, or just let valid flow control
         L --> Concat[Concatenation]
         F --> Concat
     end
     
-    Concat --> Painted[Painted Cloud (N, 4+K+1)]
-    Painted --> D[3D Detector (PointPillars/VoxelNet)]
-    D --> BBox[3D Bounding Boxes]
+    %% Final Output
+    Concat --> Painted["Painted Cloud (N, 4+K+1)"]
+    Painted --> D["3D Detector (PointPillars/VoxelNet)"]
+    D --> BBox["3D Bounding Boxes"]
 ```
 
 ## 2. Mathematical Formulation
