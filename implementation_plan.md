@@ -14,6 +14,9 @@
 - **Model:** Use a standard semantic segmentation network (e.g., DeepLabV3+, UNet, or a pre-trained detector).
 - **Uncertainty Method:**
     - **Entropy:** Calculate Shannon entropy of the softmax class probabilities per pixel. High entropy = high uncertainty.
+        $$
+        U_{u,v} = H(p_{u,v}) = - \sum_{k=1}^{K} p_{u,v}^{(k)} \log(p_{u,v}^{(k)})
+        $$
     - **MC Dropout:** Run the network multiple times with dropout enabled during inference and calculate the variance of the predictions. (More accurate but slower).
 - **Output:** An "Uncertainty Map" (H x W) aligned with the RGB image.
 
