@@ -43,7 +43,10 @@ Given an input image $I$, the 2D network outputs a probability distribution over
 Let $p_{u,v} \in \mathbb{R}^K$ be the softmax probability vector at pixel $(u, v)$.
 
 The **predictive uncertainty** $U_{u,v}$ is quantified using Shannon Entropy:
-$$ U_{u,v} = H(p_{u,v}) = - \sum_{k=1}^{K} p_{u,v}^{(k)} \log(p_{u,v}^{(k)}) $$
+
+$$
+U_{u,v} = H(p_{u,v}) = - \sum_{k=1}^{K} p_{u,v}^{(k)} \log(p_{u,v}^{(k)})
+$$
 
 *   **Low Entropy (near 0):** The model is confident (one class has probability $\approx 1$).
 *   **High Entropy:** The model is uncertain (probabilities are spread out, e.g., uniform distribution).
@@ -51,18 +54,33 @@ $$ U_{u,v} = H(p_{u,v}) = - \sum_{k=1}^{K} p_{u,v}^{(k)} \log(p_{u,v}^{(k)}) $$
 ### 2.2. LiDAR-to-Image Projection
 To associate a 3D LiDAR point $P_{lidar} = (x, y, z, 1)^T$ with a 2D pixel $(u, v)$, we use the calibration matrices:
 1.  **Extrinsic:** Transform LiDAR to Camera coordinates.
-    $$ P_{cam} = T_{velo \to cam} \times P_{lidar} $$
+
+    $$
+    P_{cam} = T_{velo \to cam} \times P_{lidar}
+    $$
 2.  **Intrinsic:** Project Camera coordinates to Image plane.
-    $$ P_{img} = P_{rect} \times R_{rect}^{(0)} \times P_{cam} $$
-    $$ \begin{bmatrix} u' \\ v' \\ w' \end{bmatrix} = P_{img} $$
-    $$ u = u'/w', \quad v = v'/w' $$
+
+    $$
+    P_{img} = P_{rect} \times R_{rect}^{(0)} \times P_{cam}
+    $$
+
+    $$
+    \begin{bmatrix} u' \\ v' \\ w' \end{bmatrix} = P_{img}
+    $$
+
+    $$
+    u = u'/w', \quad v = v'/w'
+    $$
 
 ### 2.3. Feature Painting
 For each valid LiDAR point projecting to $(u, v)$ inside the image bounds:
 1.  Sample the Class Probability vector $C = p_{u,v}$ (Size $K$).
 2.  Sample the Uncertainty Scalar $U = U_{u,v}$ (Size $1$).
 3.  Construct the Augmented Point vector:
-    $$ P'_{point} = [x, y, z, r, C_1, ..., C_K, U] $$
+
+    $$
+    P'_{point} = [x, y, z, r, C_1, ..., C_K, U]
+    $$
     Total dimensions: $4 + K + 1$.
 
 ## 3. Network Modifications
@@ -73,7 +91,10 @@ For each valid LiDAR point projecting to $(u, v)$ inside the image bounds:
 *   **Inference:**
     *   Standard: Single forward pass $\to$ Softmax $\to$ Entropy.
     *   *Advanced (Optional):* MC Dropout. Perform $T$ forward passes with dropout on.
-        $$ U_{u,v} = \text{Var}(\{p_{u,v}^{(t)}\}_{t=1}^T) $$
+
+        $$
+        U_{u,v} = \text{Var}(\{p_{u,v}^{(t)}\}_{t=1}^T)
+        $$
 
 ### 3.2. 3D Network (The "Detector")
 *   **Architecture:** PointPillars (Fast) or VoxelNet (Accurate).

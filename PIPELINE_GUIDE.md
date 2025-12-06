@@ -18,7 +18,7 @@ To run the full pipeline, you need the **KITTI Object Detection Benchmark** data
     - **training labels of object data set (5 MB)** -> Unzip to `data/training/label_2/`
 
 **Directory Layout:**
-```
+```text
 uncertainty_painting/
   data/
     training/
