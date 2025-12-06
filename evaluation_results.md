@@ -1,6 +1,6 @@
 # Uncertainty-Painted PointPillars Evaluation Results
 
-> **All results reported on KITTI Validation Set** (consistent with PointPainting Table 1 for fair comparison)
+> **All results reported on KITTI Validation Set** (Default and Pointpainting implementation results are taken from Table 1 of PointPainting paper)
 
 ## Comparison Table: 3D Object Detection on KITTI Validation Set
 
@@ -18,8 +18,6 @@
 | **Uncertainty-Painted SECOND** (Ours) | <u>**79.08**</u> | <u>**97.10**</u> | <u>**88.63**</u> | 86.41 | 69.26 | 67.19 | 65.00 | <u>**88.15**</u> | 81.43 | <u>**79.85**</u> |
 | **Delta (Ours vs Base)** | $\color{green}{+7.25}$ | $\color{green}{+7.23}$ | $\color{green}{+1.34}$ | $\color{green}{+0.11}$ | $\color{red}{-0.82}$ | $\color{green}{+4.75}$ | $\color{green}{+9.98}$ | $\color{green}{+2.67}$ | $\color{green}{+15.66}$ | $\color{green}{+20.88}$ |
 | **Delta (Ours vs Painted)** | $\color{green}{+5.53}$ | $\color{green}{+7.05}$ | $\color{green}{+1.12}$ | $\color{red}{-0.25}$ | $\color{red}{-3.90}$ | $\color{green}{+2.14}$ | $\color{green}{+7.67}$ | $\color{green}{+0.69}$ | $\color{green}{+13.35}$ | $\color{green}{+14.26}$ |
-
-> **Note:** All values are 3D AP (%) at standard KITTI IoU thresholds (Car: 0.70, Pedestrian: 0.50, Cyclist: 0.50)
 
 ---
 
