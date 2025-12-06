@@ -1,7 +1,5 @@
 # Modular Pipeline & User Guide
 
-This project is structured to be modular and testable at every step, following a research "paper" workflow.
-
 ## 1. Directory Structure
 - `src/`: Core implementation modules (Segmentation, Projection, Painting).
 - `scripts/`: Executable scripts to run each step of the pipeline.
