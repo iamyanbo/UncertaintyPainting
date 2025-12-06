@@ -1,6 +1,15 @@
+import sys
+from pathlib import Path
+# Add scripts dir to path to find patch_torch_globals
+SCRIPTS_DIR = Path(__file__).resolve().parents[2] / 'scripts'
+sys.path.append(str(SCRIPTS_DIR))
+import patch_torch_globals
+
 import _init_path
 import argparse
+
 import datetime
+
 import glob
 import os
 from pathlib import Path

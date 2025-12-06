@@ -44,6 +44,7 @@ cd ..
 ```
 
 > **Note:** On Windows, use the fork: `Uzukidd/OpenPCDet-Win11-Compatible`
+> **Important:** This repository includes `scripts/patch_torch_globals.py` which is automatically loaded to resolve PyTorch/NumPy unpickling issues (WeightsUnpickler error).
 
 ---
 

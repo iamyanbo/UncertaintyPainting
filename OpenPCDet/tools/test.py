@@ -1,4 +1,12 @@
+import sys
+from pathlib import Path
+# Add scripts dir to path to find patch_torch_globals
+SCRIPTS_DIR = Path(__file__).resolve().parents[2] / 'scripts'
+sys.path.append(str(SCRIPTS_DIR))
+import patch_torch_globals
+
 import _init_path
+
 import argparse
 import datetime
 import glob
@@ -81,7 +89,9 @@ def get_no_evaluated_ckpt(ckpt_dir, ckpt_record_file, args):
         epoch_id = num_list[-1]
         if 'optim' in epoch_id:
             continue
-        if float(epoch_id) not in evaluated_ckpt_list and int(float(epoch_id)) >= args.start_epoch:
+        # Remove any non-numeric suffixes like _clean
+        epoch_id_clean = re.findall(r'\d+', epoch_id)[0]
+        if float(epoch_id_clean) not in evaluated_ckpt_list and int(float(epoch_id_clean)) >= args.start_epoch:
             return epoch_id, cur_ckpt
     return -1, None
 

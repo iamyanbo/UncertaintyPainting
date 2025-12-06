@@ -29,11 +29,11 @@ def create_imagesets(data_root='data/training', train_ratio=0.8):
     os.makedirs(imageset_dir, exist_ok=True)
     
     # Write train.txt
-    with open(os.path.join(imageset_dir, 'train.txt'), 'w') as f:
+    with open(os.path.join(imageset_dir, 'train.txt'), 'w', encoding='utf-8') as f:
         f.write('\n'.join(train_indices))
     
     # Write val.txt
-    with open(os.path.join(imageset_dir, 'val.txt'), 'w') as f:
+    with open(os.path.join(imageset_dir, 'val.txt'), 'w', encoding='utf-8') as f:
         f.write('\n'.join(val_indices))
     
     print(f"Created train.txt: {len(train_indices)} samples")
