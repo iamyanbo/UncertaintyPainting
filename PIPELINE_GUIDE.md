@@ -3,8 +3,7 @@
 ## 1. Directory Structure
 - `src/`: Core implementation modules (Segmentation, Projection, Painting).
 - `scripts/`: Executable scripts to run each step of the pipeline.
-- `tests/`: Unit tests and sanity checks.
-- `data/`: Place your KITTI dataset here.
+- `data/`: Place your KITTI dataset here (not included in repo, must be added by user).
 
 ## 2. User Action Required: Data Setup
 To run the full pipeline, you need the **KITTI Object Detection Benchmark** dataset.
