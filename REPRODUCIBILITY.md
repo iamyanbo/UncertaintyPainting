@@ -186,6 +186,11 @@ If training crashes with `KeyError: 'road_plane'`:
 - Reduce `--batch_size` to 2
 - Reduce `MAX_NUMBER_OF_VOXELS` in config
 
+### Spconv Attribute Error
+If you encounter `AttributeError: module 'spconv' has no attribute 'SparseModule'`:
+- This indicates an issue with `spconv` 2.x compatibility.
+- Ensure `pcdet/utils/spconv_utils.py` includes the patch to alias `SparseModule` to `nn.Module`. This repository includes the fix automatically.
+
 ---
 
 ## 7. Expected Results

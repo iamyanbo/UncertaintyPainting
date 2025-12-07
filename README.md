@@ -23,7 +23,7 @@ The core innovation is the addition of an **uncertainty channel** to the standar
 ### Methodology
 In the standard PointPainting architecture, LiDAR points are "painted" with the class scores from a 2D segmentation network. We extend this by calculating the **predictive uncertainty** of the 2D network and appending it as an additional feature.
 
-> **Note:** Unlike the original PointPainting which utilized only 4 classes, our approach separates the 2D classification into **21 classes** (aligned with PASCAL VOC/Cityscapes granularity) before fusion. This finer granularity provides richer semantic context and improves overall detection accuracy.
+> **Note:** While the core innovation of this work is **uncertainty-aware fusion**, a significant architectural difference from the original PointPainting (which trained a segmentation model specifically on KITTI for ~4 classes) is our use of an **off-the-shelf DeepLabV3+ model pre-trained on Pascal VOC**. This provides **21 semantic classes**, allowing for finer granularity (e.g., distinguishing between different vehicle types) without requiring additional 2D training. This richer semantic context works in tandem with the uncertainty channel to enhance the 3D detector.
 
 **Uncertainty Calculation (Shannon Entropy):**
 For a pixel $(u, v)$ with class probability distribution $p$, the uncertainty $H$ is calculated as:
@@ -85,6 +85,7 @@ We used **5,979** training samples from the KITTI dataset after removing corrupt
 Future work involves exploring advanced uncertainty methods to improve robustness:
 *   **Monte Carlo (MC) Dropout:** Bayesian approximation via dropout during inference.
 *   **Deep Ensembles:** Uncertainty estimation through variance across multiple models.
+*   **Ablation Study (Class Granularity vs. Uncertainty):** A key next step is to isolate the gains from the 21-class upgrade versus the uncertainty fusion. This involves training a model with 21 painted classes *but without* the uncertainty channel to verify the specific impact of the entropy feature.
 
 ---
 
