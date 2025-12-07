@@ -92,7 +92,11 @@ We removed corrupted files and used a slightly cleaner split, resulting in **~11
 
 ## Future Work
 
-To address the edge uncertainty issue observed in Pedestrian detection and to explore different uncertainty approaches, please refer to [**research_note_uncertainty.md**](research_note_uncertainty.md) for detailed alternative methods and research directions.
+## Future Work
+
+Future work involves exploring advanced uncertainty methods to improve robustness:
+*   **Monte Carlo (MC) Dropout:** Bayesian approximation via dropout during inference.
+*   **Deep Ensembles:** Uncertainty estimation through variance across multiple models.
 
 ---
 

@@ -75,7 +75,7 @@ class KittiDataset(DatasetTemplate):
             image: (H, W, 3), RGB Image
         """
         img_file = self.root_split_path / 'image_2' / ('%s.png' % idx)
-        assert img_file.exists()
+        assert img_file.exists(), f"Image file not found: {img_file}"
         image = io.imread(img_file)
         image = image.astype(np.float32)
         image /= 255.0

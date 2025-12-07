@@ -36,32 +36,7 @@
 
 ---
 
-## Analysis: Why Pedestrian Performance is Lower
 
-### Shannon Entropy at Object Edges
-
-The uncertainty-painted features use **Shannon entropy** to quantify prediction confidence:
-
-
-$$
-H(p) = - \sum_{k=1}^{K} p^{(k)} \log(p^{(k)})
-$$
-
-**Observation:** Shannon entropy produces **high uncertainty values at pedestrian edges**.
-
-#### Root Cause:
-1. **Pedestrians have complex, irregular boundaries** (arms, legs, clothing edges)
-2. The semantic segmentation network produces **ambiguous class probabilities** at these boundaries
-3. High entropy at edges means the painted features contain **noisy uncertainty signals** for pedestrian points
-4. The 3D detector may learn to **down-weight** pedestrian detections due to this noise
-
-#### Why Cyclists Perform Better:
-1. **Cyclists have more regular silhouettes** (bicycle frame provides consistent structure)
-2. The bike + person combination creates a **larger, more stable region** in the image
-3. Lower edge-to-area ratio means fewer boundary pixels with high entropy
-4. Uncertainty values are more **consistent and informative** for cyclist detection
-
----
 
 ## Experimental Details
 
