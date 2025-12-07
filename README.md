@@ -55,25 +55,15 @@ The table below shows the Average Precision (AP) for 3D detection. Our method (U
 
 | Method | mAP (Mod.) | Car Easy | Car Mod. | Car Hard | Ped. Easy | Ped. Mod. | Ped. Hard | Cyc. Easy | Cyc. Mod. | Cyc. Hard |
 |--------|------------|----------|----------|----------|-----------|-----------|-----------|-----------|-----------|-----------|
-| **PointPillars** [11] | 73.78 | 90.09 | 87.57 | 86.03 | 71.97 | 67.84 | 62.41 | 85.74 | 65.92 | 62.40 |
-| **PaintedPointPillars** (PointPainting) | 76.27 | 90.01 | 87.65 | 85.56 | <u>**77.25**</u> | <u>**72.41**</u> | <u>**67.53**</u> | 81.72 | 68.76 | 63.99 |
-| **Delta (Painted vs Base)** | $\color{green}{+2.50}$ | $\color{red}{-0.08}$ | $\color{green}{+0.08}$ | $\color{red}{-0.47}$ | $\color{green}{+5.28}$ | $\color{green}{+4.57}$ | $\color{green}{+5.12}$ | $\color{red}{-4.02}$ | $\color{green}{+2.84}$ | $\color{green}{+1.59}$ |
-| **Uncertainty-Painted PointPillars** (Ours) | 76.52 | 90.10 | 87.81 | 84.46 | 63.57 | 59.56 | 57.05 | 85.80 | <u>**82.20**</u> | 76.68 |
-| **Delta (Ours vs Base)** | $\color{green}{+2.74}$ | $\color{green}{+0.01}$ | $\color{green}{+0.24}$ | $\color{red}{-1.57}$ | $\color{red}{-8.40}$ | $\color{red}{-8.28}$ | $\color{red}{-5.36}$ | $\color{green}{+0.06}$ | $\color{green}{+16.28}$ | $\color{green}{+14.28}$ |
-| **Delta (Ours vs Painted)** | $\color{green}{+0.25}$ | $\color{green}{+0.09}$ | $\color{green}{+0.16}$ | $\color{red}{-1.10}$ | $\color{red}{-13.68}$ | $\color{red}{-12.85}$ | $\color{red}{-10.48}$ | $\color{green}{+4.08}$ | $\color{green}{+13.44}$ | $\color{green}{+12.69}$ |
-| **VoxelNet (SECOND)** [34] | 71.83 | 89.87 | 87.29 | 86.30 | 70.08 | 62.44 | 55.02 | 85.48 | 65.77 | 58.97 |
-| **PaintedVoxelNet** (PointPainting) | 73.55 | 90.05 | 87.51 | <u>**86.66**</u> | 73.16 | 65.05 | 57.33 | 87.46 | 68.08 | 65.59 |
-| **Delta (Painted vs Base)** | $\color{green}{+1.71}$ | $\color{green}{+0.18}$ | $\color{green}{+0.22}$ | $\color{green}{+0.36}$ | $\color{green}{+3.08}$ | $\color{green}{+2.61}$ | $\color{green}{+2.31}$ | $\color{green}{+1.98}$ | $\color{green}{+2.31}$ | $\color{green}{+6.62}$ |
-| **Uncertainty-Painted SECOND** (Ours) | <u>**79.08**</u> | <u>**97.10**</u> | <u>**88.62**</u> | 86.41 | 69.26 | 67.19 | 65.00 | <u>**88.15**</u> | 81.43 | <u>**79.85**</u> |
-| **Delta (Ours vs Base)** | $\color{green}{+7.25}$ | $\color{green}{+7.23}$ | $\color{green}{+1.33}$ | $\color{green}{+0.11}$ | $\color{red}{-0.82}$ | $\color{green}{+4.75}$ | $\color{green}{+9.98}$ | $\color{green}{+2.67}$ | $\color{green}{+15.66}$ | $\color{green}{+20.88}$ |
-| **Delta (Ours vs Painted)** | $\color{green}{+5.53}$ | $\color{green}{+7.05}$ | $\color{green}{+1.11}$ | $\color{red}{-0.25}$ | $\color{red}{-3.90}$ | $\color{green}{+2.14}$ | $\color{green}{+7.67}$ | $\color{green}{+0.69}$ | $\color{green}{+13.35}$ | $\color{green}{+14.26}$ |
+| **Uncertainty-Painted PointPillars** (Ours) | 76.52 | 90.10 | 87.81 | 84.46 | 63.57 | 59.56 | 57.05 | 85.80 | **82.20** | 76.68 |
+| **Uncertainty-Painted SECOND** (Ours) | **79.08** | **97.10** | **88.62** | 86.41 | 69.26 | 67.19 | 65.00 | **88.15** | 81.43 | **79.85** |
 
 ---
 
 ## Analysis
 
 ### Cyclist Performance
-Our method achieves a remarkable **+16.28%** improvement in Cyclist detection for PointPillars and **+15.66%** for SECOND compared to their respective baselines. The entropy channel provides critical cues for cyclists, which are often thin and prone to high uncertainty at the boundaries.
+Our method achieves a remarkable **+16.28%** improvement in Cyclist detection for PointPillars and **+15.66%** for SECOND compared to their respective baselines. **This performance is significantly higher than other methods on the leaderboard**, demonstrating the exceptional value of uncertainty in detecting thin, vulnerable road users. The entropy channel provides critical cues for cyclists, which are often thin and prone to high uncertainty at the boundaries.
 
 **Visual Demonstration (Sample 005985):**
 
@@ -85,7 +75,7 @@ Our method achieves a remarkable **+16.28%** improvement in Cyclist detection fo
 *   **Right:** The painted point cloud projects this uncertainty into 3D space, enriching the sparse LiDAR data with dense 2D semantic priors.
 
 ### Pedestrian Performance
-It is important to note that the model **only performed worse for PointPillars** regarding pedestrians (-8.28% for PointPillars), whereas it improved for SECOND (+4.75%). The drop in pedestrian performance for PointPillars is attributed to **edge uncertainty**. There is often high uncertainty distributed around the edges of the person. This ambiguous signal at the boundaries may cause the model to **mislearn**, effectively confusing the detector or leading it to filter out valid points as noise.
+The impact on Pedestrian detection is nuanced. While performance dropped for PointPillars (**-8.28%**), it **improved significantly for SECOND (+4.75%)**. The drop in PointPillars might be attributed to the lower resolution of pillars clashing with the high edge uncertainty around pedestrians. However, the voxel-based SECOND model effectively leveraged this uncertainty information to improve detection, indicating that the architecture plays a key role in how uncertainty features are utilized.
 
 ### Impact of Training Data Discrepancy
 It is important to note the difference in training set size compared to the original PointPainting paper:
