@@ -15,9 +15,9 @@
 | **VoxelNet (SECOND)** [34] | 71.83 | 89.87 | 87.29 | 86.30 | 70.08 | 62.44 | 55.02 | 85.48 | 65.77 | 58.97 |
 | **PaintedVoxelNet** (PointPainting) | 73.55 | 90.05 | 87.51 | <u>**86.66**</u> | 73.16 | 65.05 | 57.33 | 87.46 | 68.08 | 65.59 |
 | **Delta (Painted vs Base)** | $\color{green}{+1.71}$ | $\color{green}{+0.18}$ | $\color{green}{+0.22}$ | $\color{green}{+0.36}$ | $\color{green}{+3.08}$ | $\color{green}{+2.61}$ | $\color{green}{+2.31}$ | $\color{green}{+1.98}$ | $\color{green}{+2.31}$ | $\color{green}{+6.62}$ |
-| **Uncertainty-Painted SECOND** (Ours) | <u>**79.08**</u> | <u>**97.10**</u> | <u>**88.63**</u> | 86.41 | 69.26 | 67.19 | 65.00 | <u>**88.15**</u> | 81.43 | <u>**79.85**</u> |
-| **Delta (Ours vs Base)** | $\color{green}{+7.25}$ | $\color{green}{+7.23}$ | $\color{green}{+1.34}$ | $\color{green}{+0.11}$ | $\color{red}{-0.82}$ | $\color{green}{+4.75}$ | $\color{green}{+9.98}$ | $\color{green}{+2.67}$ | $\color{green}{+15.66}$ | $\color{green}{+20.88}$ |
-| **Delta (Ours vs Painted)** | $\color{green}{+5.53}$ | $\color{green}{+7.05}$ | $\color{green}{+1.12}$ | $\color{red}{-0.25}$ | $\color{red}{-3.90}$ | $\color{green}{+2.14}$ | $\color{green}{+7.67}$ | $\color{green}{+0.69}$ | $\color{green}{+13.35}$ | $\color{green}{+14.26}$ |
+| **Uncertainty-Painted SECOND** (Ours) | <u>**79.08**</u> | <u>**97.10**</u> | <u>**88.62**</u> | 86.41 | 69.26 | 67.19 | 65.00 | <u>**88.15**</u> | 81.43 | <u>**79.85**</u> |
+| **Delta (Ours vs Base)** | $\color{green}{+7.25}$ | $\color{green}{+7.23}$ | $\color{green}{+1.33}$ | $\color{green}{+0.11}$ | $\color{red}{-0.82}$ | $\color{green}{+4.75}$ | $\color{green}{+9.98}$ | $\color{green}{+2.67}$ | $\color{green}{+15.66}$ | $\color{green}{+20.88}$ |
+| **Delta (Ours vs Painted)** | $\color{green}{+5.53}$ | $\color{green}{+7.05}$ | $\color{green}{+1.11}$ | $\color{red}{-0.25}$ | $\color{red}{-3.90}$ | $\color{green}{+2.14}$ | $\color{green}{+7.67}$ | $\color{green}{+0.69}$ | $\color{green}{+13.35}$ | $\color{green}{+14.26}$ |
 
 ---
 
