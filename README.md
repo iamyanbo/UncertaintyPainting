@@ -85,7 +85,7 @@ We used **5,979** training samples from the KITTI dataset after removing corrupt
 Future work involves exploring advanced uncertainty methods to improve robustness:
 *   **Monte Carlo (MC) Dropout:** Bayesian approximation via dropout during inference.
 *   **Deep Ensembles:** Uncertainty estimation through variance across multiple models.
-*   **Ablation Study (Class Granularity vs. Uncertainty):** A key next step is to isolate the gains from the 21-class upgrade versus the uncertainty fusion. This involves training a model with 21 painted classes *but without* the uncertainty channel to verify the specific impact of the entropy feature.
+*   **Ablation Study:** It is important to note that we used a 21-class semantic segmentation model, which is different from the original PointPainting (which used ~4 classes). A seperate training and validation without uncertainty must be done to evaluate the impact of the uncertainty channel.
 
 ---
 
