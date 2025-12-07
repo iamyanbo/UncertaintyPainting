@@ -55,8 +55,8 @@ The table below shows the Average Precision (AP) for 3D detection. Our method (U
 
 | Method | mAP (Mod.) | Car Easy | Car Mod. | Car Hard | Ped. Easy | Ped. Mod. | Ped. Hard | Cyc. Easy | Cyc. Mod. | Cyc. Hard |
 |--------|------------|----------|----------|----------|-----------|-----------|-----------|-----------|-----------|-----------|
-| **Uncertainty-Painted PointPillars** (Ours) | 76.52 | 90.10 | 87.81 | 84.46 | 63.57 | 59.56 | 57.05 | 85.80 | **82.20** | 76.68 |
-| **Uncertainty-Painted SECOND** (Ours) | **79.08** | **97.10** | **88.62** | 86.41 | 69.26 | 67.19 | 65.00 | **88.15** | 81.43 | **79.85** |
+| **Uncertainty-Painted PointPillars** (Ours) | 76.52 | 90.10 | 87.81 | 84.46 | 63.57 | 59.56 | 57.05 | 85.80 | 82.20 | 76.68 |
+| **Uncertainty-Painted SECOND** (Ours) | 79.08 | 97.10 | 88.62 | 86.41 | 69.26 | 67.19 | 65.00 | 88.15 | 81.43 | 79.85 |
 
 ---
 
