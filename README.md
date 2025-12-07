@@ -101,8 +101,6 @@ We removed corrupted files and used a slightly cleaner split, resulting in **~11
 
 ## Future Work
 
-## Future Work
-
 Future work involves exploring advanced uncertainty methods to improve robustness:
 *   **Monte Carlo (MC) Dropout:** Bayesian approximation via dropout during inference.
 *   **Deep Ensembles:** Uncertainty estimation through variance across multiple models.
