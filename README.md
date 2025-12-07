@@ -29,7 +29,7 @@ In the standard PointPainting architecture, LiDAR points are "painted" with the 
 For a pixel $(u, v)$ with class probability distribution $p$, the uncertainty $H$ is calculated as:
 
 $$
-H(p) = - \sum_{k=1}^{K} p^{(k)} \log(p^{(k)})
+H(p) = - \sum_{k=1}^{K} p_k \log(p_k)
 $$
 
 ### Augmented Point Vector
