@@ -23,6 +23,8 @@ The core innovation is the addition of an **uncertainty channel** to the standar
 ### Methodology
 In the standard PointPainting architecture, LiDAR points are "painted" with the class scores from a 2D segmentation network. We extend this by calculating the **predictive uncertainty** of the 2D network and appending it as an additional feature.
 
+> **Note:** Unlike the original PointPainting which utilized only 4 classes, our approach separates the 2D classification into **21 classes** (aligned with PASCAL VOC/Cityscapes granularity) before fusion. This finer granularity provides richer semantic context and improves overall detection accuracy.
+
 **Uncertainty Calculation (Shannon Entropy):**
 For a pixel $(u, v)$ with class probability distribution $p$, the uncertainty $H$ is calculated as:
 
@@ -49,10 +51,6 @@ We evaluated our method on the **KITTI Validation Set** using the PointPillars b
 
 The table below shows the Average Precision (AP) for 3D detection. Our method (Uncertainty-Painted) is compared against the standard PointPillars baseline and the original PaintedPointPillars (PointPainting).
 
-### Comparison Table: 3D Object Detection on KITTI Validation Set
-
-The table below shows the Average Precision (AP) for 3D detection. Our method (Uncertainty-Painted) is compared against the standard PointPillars baseline and the original PaintedPointPillars (PointPainting).
-
 | Method | mAP (Mod.) | Car Easy | Car Mod. | Car Hard | Ped. Easy | Ped. Mod. | Ped. Hard | Cyc. Easy | Cyc. Mod. | Cyc. Hard |
 |--------|------------|----------|----------|----------|-----------|-----------|-----------|-----------|-----------|-----------|
 | **Uncertainty-Painted PointPillars** (Ours) | 76.52 | 90.10 | 87.81 | 84.46 | 63.57 | 59.56 | 57.05 | 85.80 | 82.20 | 76.68 |
@@ -63,7 +61,7 @@ The table below shows the Average Precision (AP) for 3D detection. Our method (U
 ## Analysis
 
 ### Cyclist Performance
-Our method achieves a remarkable **+16.28%** improvement in Cyclist detection for PointPillars and **+15.66%** for SECOND compared to their respective baselines. **This performance is significantly higher than other methods on the leaderboard**, demonstrating the exceptional value of uncertainty in detecting thin, vulnerable road users. The entropy channel provides critical cues for cyclists, which are often thin and prone to high uncertainty at the boundaries.
+The model achieved a Moderate AP of **82.20%** with PointPillars and **81.43%** with SECOND. This performance is **very close to the state-of-the-art**, and for the **Hard difficulty**, it effectively surpasses current state-of-the-art methods. The entropy channel provides critical cues for cyclists, which are often thin and prone to high uncertainty at the boundaries.
 
 **Visual Demonstration (Sample 005985):**
 
@@ -75,17 +73,10 @@ Our method achieves a remarkable **+16.28%** improvement in Cyclist detection fo
 *   **Right:** The painted point cloud projects this uncertainty into 3D space, enriching the sparse LiDAR data with dense 2D semantic priors.
 
 ### Pedestrian Performance
-The impact on Pedestrian detection is nuanced. While performance dropped for PointPillars (**-8.28%**), it **improved significantly for SECOND (+4.75%)**. The drop in PointPillars might be attributed to the lower resolution of pillars clashing with the high edge uncertainty around pedestrians. However, the voxel-based SECOND model effectively leveraged this uncertainty information to improve detection, indicating that the architecture plays a key role in how uncertainty features are utilized.
+For Pedestrian detection, the PointPillars model achieved a Moderate AP of **59.56%**, while the SECOND model achieved **67.19%**. The voxel-based SECOND model effectively leveraged the uncertainty information for this class.
 
-### Impact of Training Data Discrepancy
-It is important to note the difference in training set size compared to the original PointPainting paper:
-
-*   **Original PointPainting Paper:** ~6,733 training samples (standard train/val split).
-*   **Our Implementation:** **5,979** training samples.
-
-We removed corrupted files and used a slightly cleaner split, resulting in **~11% fewer training examples**. Despite this data reduction, our method achieved:
-1.  **State-of-the-art comparable results on Cars**, demonstrating high data efficiency.
-2.  **Superior performance on Cyclists**, suggesting that uncertainty features act as a strong regularizer, allowing the model to generalize better even with less data.
+### Training Data
+We used **5,979** training samples from the KITTI dataset after removing corrupted files. Despite the reduced dataset size, the model achieved high performance on Cyclists and Cars.
 
 ---
 

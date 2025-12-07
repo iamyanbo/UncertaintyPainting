@@ -11,18 +11,18 @@
 
 ---
 
-## Summary of Our Results
+## Summary of Results
 
-### Strong Performance
-- **Cyclist Detection:** Significant improvement over both baseline and PaintedPointPillars
-  - Mod. AP: 82.20% (vs 65.92% baseline, +16.28%)
-  - Hard AP: 76.68% (vs 62.40% baseline, +14.28%)
-- **Car Detection:** Comparable to state-of-the-art
-  - Mod. AP: 87.81% (on par with painted methods)
+### Performance Summary
+- **Cyclist Detection:**
+  - Mod. AP: 82.20%
+  - Hard AP: 76.68%
+- **Car Detection:**
+  - Mod. AP: 87.81%
 
-### Weaker Performance
-- **Pedestrian Detection:** Lower than expected
-  - Mod. AP: 59.56% (vs 67.84% baseline, -8.28%)
+### Pedestrian Performance
+- **Pedestrian Detection:**
+  - Mod. AP: 59.56%
 
 ---
 

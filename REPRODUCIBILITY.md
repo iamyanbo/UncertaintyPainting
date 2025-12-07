@@ -192,8 +192,8 @@ If training crashes with `KeyError: 'road_plane'`:
 
 | Model | Car (Mod.) | Pedestrian (Mod.) | Cyclist (Mod.) |
 |-------|------------|-------------------|----------------|
-| **Uncertainty-Painted PointPillars** | 87.81 | 59.56 | 82.20 |
-| **Uncertainty-Painted SECOND** | 88.62 | 67.19 | 81.43 |
+| Uncertainty-Painted PointPillars | 87.81 | 59.56 | 82.20 |
+| Uncertainty-Painted SECOND | 88.62 | 67.19 | 81.43 |
 
 
 ---
