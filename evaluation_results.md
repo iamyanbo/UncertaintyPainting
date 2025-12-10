@@ -9,13 +9,7 @@
 | **Uncertainty-Painted PointPillars** (Ours) | **76.52** | 90.10 | 87.81 | 84.46 | 63.57 | 59.56 | 57.05 | 85.80 | 82.20 | 76.68 |
 | PointPillars (No Uncertainty) | 75.78 | 89.95 | 87.53 | 85.02 | 62.62 | 58.13 | 56.66 | 85.35 | 81.69 | 79.61 |
 
-```diff
-! Delta Summary (Gain from Uncertainty)
-+ mAP (Mod): +0.74
-+ Car:       +0.15 (Easy)   +0.28 (Mod)    -0.56 (Hard)
-+ Pedestrian:+0.95 (Easy)   +1.43 (Mod)    +0.39 (Hard)
-+ Cyclist:   +0.45 (Easy)   +0.51 (Mod)    -2.93 (Hard)
-```
+| *Delta (Gain from Uncertainty)* | *![](https://img.shields.io/badge/-%2B0.74-2ea44f)* | *![](https://img.shields.io/badge/-%2B0.15-2ea44f)* | *![](https://img.shields.io/badge/-%2B0.28-2ea44f)* | *![](https://img.shields.io/badge/--0.56-f03c15)* | *![](https://img.shields.io/badge/-%2B0.95-2ea44f)* | *![](https://img.shields.io/badge/-%2B1.43-2ea44f)* | *![](https://img.shields.io/badge/-%2B0.39-2ea44f)* | *![](https://img.shields.io/badge/-%2B0.45-2ea44f)* | *![](https://img.shields.io/badge/-%2B0.51-2ea44f)* | *![](https://img.shields.io/badge/--2.93-f03c15)* |
 
 | **Uncertainty-Painted SECOND** (Ours) | 79.08 | 97.10 | 88.62 | 86.41 | 69.26 | 67.19 | 65.00 | 88.15 | 81.43 | 79.85 |
 
@@ -88,12 +82,7 @@ To verify the contribution of the uncertainty feature, we trained a model with *
 | **Baseline (26 Feat)** | 90.10 | 87.81 | 84.46 |
 | **Ablation (25 Feat)** | 89.95 | 87.53 | 85.02 |
 
-```diff
-! Delta (Car)
-- Easy:     -0.15
-- Moderate: -0.28
-+ Hard:     +0.56
-```
+| **Delta** | ![](https://img.shields.io/badge/---0.15-f03c15) | ![](https://img.shields.io/badge/---0.28-f03c15) | ![](https://img.shields.io/badge/-%2B0.56-2ea44f) |
 
 
 #### Pedestrian Detection (IoU = 0.50)
@@ -102,12 +91,7 @@ To verify the contribution of the uncertainty feature, we trained a model with *
 | **Baseline (26 Feat)** | 63.57 | 59.56 | 57.05 |
 | **Ablation (25 Feat)** | 62.62 | 58.13 | 56.66 |
 
-```diff
-! Delta (Pedestrian)
-- Easy:     -0.95
-- Moderate: -1.43
-- Hard:     -0.39
-```
+| **Delta** | ![](https://img.shields.io/badge/---0.95-f03c15) | **![](https://img.shields.io/badge/---1.43-f03c15)** | ![](https://img.shields.io/badge/---0.39-f03c15) |
 
 
 #### Cyclist Detection (IoU = 0.50)
@@ -116,12 +100,7 @@ To verify the contribution of the uncertainty feature, we trained a model with *
 | **Baseline (26 Feat)** | 85.80 | 82.20 | 76.68 |
 | **Ablation (25 Feat)** | 85.35 | 81.69 | 79.61 |
 
-```diff
-! Delta (Cyclist)
-- Easy:     -0.45
-- Moderate: -0.51
-+ Hard:     +2.93
-```
+| **Delta** | ![](https://img.shields.io/badge/---0.45-f03c15) | ![](https://img.shields.io/badge/---0.51-f03c15) | ![](https://img.shields.io/badge/-%2B2.93-2ea44f) |
 
 
 **Analysis:**
