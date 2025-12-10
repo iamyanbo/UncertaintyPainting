@@ -69,9 +69,7 @@ The table below shows the Average Precision (AP) for 3D detection. Our method (U
 |--------|------------|----------|----------|----------|-----------|-----------|-----------|-----------|-----------|-----------|
 | **Uncertainty-Painted PointPillars** (Ours) | **76.52** | 90.10 | 87.81 | 84.46 | 63.57 | 59.56 | 57.05 | 85.80 | 82.20 | 76.68 |
 | PointPillars (No Uncertainty) | 75.78 | 89.95 | 87.53 | 85.02 | 62.62 | 58.13 | 56.66 | 85.35 | 81.69 | 79.61 |
-
 | *Delta (Gain from Uncertainty)* | *🟢 +0.74* | *🟢 +0.15* | *🟢 +0.28* | *🔴 -0.56* | *🟢 +0.95* | *🟢 +1.43* | *🟢 +0.39* | *🟢 +0.45* | *🟢 +0.51* | *🔴 -2.93* |
-
 | **Uncertainty-Painted SECOND** (Ours) | 79.08 | 97.10 | 88.62 | 86.41 | 69.26 | 67.19 | 65.00 | 88.15 | 81.43 | 79.85 |
 
 ---
@@ -109,7 +107,6 @@ To confirm whether our gains came from the **richer semantics** (21 classes) or 
 |--------|------|----------|------|
 | **Baseline (26 Feat)** | 90.10 | 87.81 | 84.46 |
 | **Ablation (25 Feat)** | 89.95 | 87.53 | 85.02 |
-
 | **Delta** | 🔴 -0.15 | 🔴 -0.28 | 🟢 +0.56 |
 
 
@@ -118,7 +115,6 @@ To confirm whether our gains came from the **richer semantics** (21 classes) or 
 |--------|------|----------|------|
 | **Baseline (26 Feat)** | 63.57 | 59.56 | 57.05 |
 | **Ablation (25 Feat)** | 62.62 | 58.13 | 56.66 |
-
 | **Delta** | 🔴 -0.95 | **🔴 -1.43** | 🔴 -0.39 |
 
 
@@ -127,7 +123,6 @@ To confirm whether our gains came from the **richer semantics** (21 classes) or 
 |--------|------|----------|------|
 | **Baseline (26 Feat)** | 85.80 | 82.20 | 76.68 |
 | **Ablation (25 Feat)** | 85.35 | 81.69 | 79.61 |
-
 | **Delta** | 🔴 -0.45 | 🔴 -0.51 | 🟢 +2.93 |
 
 
