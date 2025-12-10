@@ -20,16 +20,16 @@ Here we see the 3D LiDAR point cloud "painted" with the rich feature vector (21 
 
 ---
 
-## Implementation
+## Implementation: The Power of Rich Semantics
 
 The core innovation of this work is twofold: using **Rich Semantic Priors** and adding an **Uncertainty Channel**.
 
-### 1. Rich Semantic Context
+### 1. Rich Semantic Context (The "Happy Accident")
 Standard **PointPainting** implementations typically train a segmentation network specifically on the target dataset (e.g., KITTI) to output probabilities for `Car`, `Pedestrian`, `Cyclist`, and `Background`.
 
 In contrast, we use a **DeepLabV3+ model pre-trained on Pascal VOC**, which outputs probabilities for **21 classes** (Airplane, Bicycle, Bird, Boat, Bottle, Bus, Car, Cat, Chair, Cow, Table, Dog, Horse, Motorbike, Person, Plant, Sheep, Sofa, Train, TV, Background).
 
-**Rich Semantics Realization:**
+**The "Happy Accident":**
 This choice was originally unintentional, we selected the pre-trained VOC model simply for implementation convenience to avoid training a custom segmentation network on KITTI. We did not initially realize that this richer class set (21 vs 4) would end up being the primary driver of our superior performance.
 
 **Why this matters:**
@@ -69,7 +69,7 @@ The table below shows the Average Precision (AP) for 3D detection. Our method (U
 |--------|------------|----------|----------|----------|-----------|-----------|-----------|-----------|-----------|-----------|
 | **Uncertainty-Painted PointPillars** (Ours) | **76.52** | 90.10 | 87.81 | 84.46 | 63.57 | 59.56 | 57.05 | 85.80 | 82.20 | 76.68 |
 | PointPillars (No Uncertainty) | 75.78 | 89.95 | 87.53 | 85.02 | 62.62 | 58.13 | 56.66 | 85.35 | 81.69 | 79.61 |
-| *Delta (Gain from Uncertainty)* | *🟢 +0.74* | *🟢 +0.15* | *🟢 +0.28* | *🔴 -0.56* | *🟢 +0.95* | *🟢 +1.43* | *🟢 +0.39* | *🟢 +0.45* | *🟢 +0.51* | *🔴 -2.93* |
+| *Delta (Gain from Uncertainty)* | *+0.74* | *+0.15* | *+0.28* | *-0.56* | *+0.95* | *+1.43* | *+0.39* | *+0.45* | *+0.51* | *-2.93* |
 | **Uncertainty-Painted SECOND** (Ours) | 79.08 | 97.10 | 88.62 | 86.41 | 69.26 | 67.19 | 65.00 | 88.15 | 81.43 | 79.85 |
 
 ---
@@ -107,24 +107,18 @@ To confirm whether our gains came from the **richer semantics** (21 classes) or 
 |--------|------|----------|------|
 | **Baseline (26 Feat)** | 90.10 | 87.81 | 84.46 |
 | **Ablation (25 Feat)** | 89.95 | 87.53 | 85.02 |
-| **Delta** | 🔴 -0.15 | 🔴 -0.28 | 🟢 +0.56 |
-
 
 **Pedestrian Detection (IoU = 0.50)**
 | Method | Easy | Moderate | Hard |
 |--------|------|----------|------|
 | **Baseline (26 Feat)** | 63.57 | 59.56 | 57.05 |
 | **Ablation (25 Feat)** | 62.62 | 58.13 | 56.66 |
-| **Delta** | 🔴 -0.95 | **🔴 -1.43** | 🔴 -0.39 |
-
 
 **Cyclist Detection (IoU = 0.50)**
 | Method | Easy | Moderate | Hard |
 |--------|------|----------|------|
 | **Baseline (26 Feat)** | 85.80 | 82.20 | 76.68 |
 | **Ablation (25 Feat)** | 85.35 | 81.69 | 79.61 |
-| **Delta** | 🔴 -0.45 | 🔴 -0.51 | 🟢 +2.93 |
-
 
 #### Analysis & SOTA Performance
 Our results show that this approach is **highly competitive with State-of-the-Art (SOTA)** on the KITTI validation set.
@@ -134,19 +128,22 @@ Our results show that this approach is **highly competitive with State-of-the-Ar
 
 This suggests that **Rich Semantics + Uncertainty** is a formidable combination: Rich Semantics raise the overall performance floor, while Uncertainty provides additional improvements for difficult cases.
 
+---
+
+This suggests that **Rich Semantics + Uncertainty** is a formidable combination: Rich Semantics raise the overall performance floor, while Uncertainty provides additional improvements for difficult cases.
+
 ### Qualitative Analysis: Where Uncertainty Helps
 We identified specific failure cases where the **Ablation Model (No Uncertainty)** failed to detect an object, but the **Baseline Model (With Uncertainty)** succeeded.
 
 **Comparative Visualization (Frame 006679 - Cyclist):**
 
-![Comparitive Failure Case](assets/failure_case_006679.png)
+![Comparitive Failure Case](assets/failure_case_quad_006679.png)
 
-*   **Green Boxes:** Baseline Detections (Uncertainty-Painted).
-*   **Red Dashed Boxes:** Ablation Detections (No Uncertainty).
-*   **Visualization:** The points are colored by their predictive uncertainty (Entropy).
-*   **Observation:** The cyclist (top left) corresponds to a cluster of points with **high uncertainty** (red/orange points). The Baseline model successfully detects this cyclist (Green Box), while the Ablation model misses it completely (No corresponding Red Box). The uncertainty feature likely "flagged" this sparse/ambiguous object for the network attention.
-
----
+*   **Top-Left:** Raw Camera Image.
+*   **Top-Right:** 2D Box Projection (Green=Baseline, Red=Ablation).
+*   **Bottom-Left:** Projected Entropy (Red pixels = High Uncertainty).
+*   **Bottom-Right:** 3D BEV (Colored by Uncertainty).
+*   **Observation:** The cyclist is clearly visible in the image but is a difficult, sparse target in LiDAR (Bottom-Right). The **Entropy Projection (Bottom-Left)** shows hot-spots (red) exactly on the cyclist, indicating the network was uncertain about this region. This uncertainty likely guided the Baseline model to correctly detect it (Green Box), while the Ablation model missed it.
 
 ## Future Work
 
