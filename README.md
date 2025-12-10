@@ -134,6 +134,18 @@ Our results show that this approach is **highly competitive with State-of-the-Ar
 
 This suggests that **Rich Semantics + Uncertainty** is a formidable combination: Rich Semantics raise the overall performance floor, while Uncertainty provides additional improvements for difficult cases.
 
+### Qualitative Analysis: Where Uncertainty Helps
+We identified specific failure cases where the **Ablation Model (No Uncertainty)** failed to detect an object, but the **Baseline Model (With Uncertainty)** succeeded.
+
+**Comparative Visualization (Frame 006679 - Cyclist):**
+
+![Comparitive Failure Case](assets/failure_case_006679.png)
+
+*   **Green Boxes:** Baseline Detections (Uncertainty-Painted).
+*   **Red Dashed Boxes:** Ablation Detections (No Uncertainty).
+*   **Visualization:** The points are colored by their predictive uncertainty (Entropy).
+*   **Observation:** The cyclist (top left) corresponds to a cluster of points with **high uncertainty** (red/orange points). The Baseline model successfully detects this cyclist (Green Box), while the Ablation model misses it completely (No corresponding Red Box). The uncertainty feature likely "flagged" this sparse/ambiguous object for the network attention.
+
 ---
 
 ## Future Work
