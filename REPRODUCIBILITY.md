@@ -65,6 +65,12 @@ uncertainty_painting/
 ├── OpenPCDet/
 │   └── data/
 │       └── kitti/
+│   └── tools/
+│       └── cfgs/
+│           └── kitti_models/
+│               ├── pointpillar_painted_full.yaml      # Baseline (26 feats)
+│               ├── pointpillar_painted_no_uncert.yaml # Ablation (25 feats)
+│               └── second_painted_full.yaml           # SECOND model
 │           ├── ImageSets/
 │           │   ├── train.txt
 │           │   └── val.txt
@@ -169,7 +175,28 @@ output/<model>/default/eval/epoch_80/val/default/
 
 ---
 
-## 6. Troubleshooting
+## 6. Ablation Study (Reproducing "Rich Semantics" vs "Uncertainty")
+
+To verify the impact of removing the uncertainty feature (using 25 features instead of 26):
+
+### 6.1 Train Ablation Model (No Uncertainty)
+The configuration `pointpillar_painted_no_uncert.yaml` is pre-configured to ignore the uncertainty channel.
+
+```bash
+python train.py --cfg_file cfgs/kitti_models/pointpillar_painted_no_uncert.yaml --batch_size 4 --epochs 80
+```
+
+### 6.2 Evaluate Ablation Model
+
+```bash
+python test.py --cfg_file cfgs/kitti_models/pointpillar_painted_no_uncert.yaml \
+    --batch_size 4 \
+    --ckpt ../output/kitti_models/pointpillar_painted_no_uncert/default/ckpt/checkpoint_epoch_80.pth
+```
+
+---
+
+## 7. Troubleshooting
 
 ### NumPy Version Error
 If you see `WeightsUnpickler error: numpy._core.multiarray`:
@@ -193,7 +220,7 @@ If you encounter `AttributeError: module 'spconv' has no attribute 'SparseModule
 
 ---
 
-## 7. Expected Results
+## 8. Expected Results
 
 | Model | Car (Mod.) | Pedestrian (Mod.) | Cyclist (Mod.) |
 |-------|------------|-------------------|----------------|
