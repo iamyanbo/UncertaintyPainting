@@ -418,14 +418,9 @@ class DataBaseSampler(object):
         obj_points = np.concatenate(obj_points_list, axis=0)
         sampled_gt_names = np.array([x['name'] for x in total_valid_sampled_dict])
 
-        if self.sampler_cfg.get('FILTER_OBJ_POINTS_BY_TIMESTAMP', False) or obj_points.shape[-1] != points.shape[-1]:
-            if self.sampler_cfg.get('FILTER_OBJ_POINTS_BY_TIMESTAMP', False):
-                min_time = min(self.sampler_cfg.TIME_RANGE[0], self.sampler_cfg.TIME_RANGE[1])
-                max_time = max(self.sampler_cfg.TIME_RANGE[0], self.sampler_cfg.TIME_RANGE[1])
-            else:
-                assert obj_points.shape[-1] == points.shape[-1] + 1
-                # transform multi-frame GT points to single-frame GT points
-                min_time = max_time = 0.0
+        if self.sampler_cfg.get('FILTER_OBJ_POINTS_BY_TIMESTAMP', False):
+            min_time = min(self.sampler_cfg.TIME_RANGE[0], self.sampler_cfg.TIME_RANGE[1])
+            max_time = max(self.sampler_cfg.TIME_RANGE[0], self.sampler_cfg.TIME_RANGE[1])
 
             time_mask = np.logical_and(obj_points[:, -1] < max_time + 1e-6, obj_points[:, -1] > min_time - 1e-6)
             obj_points = obj_points[time_mask]

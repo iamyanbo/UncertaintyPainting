@@ -6,10 +6,10 @@
 
 | Method | mAP (Mod.) | Car Easy | Car Mod. | Car Hard | Ped. Easy | Ped. Mod. | Ped. Hard | Cyc. Easy | Cyc. Mod. | Cyc. Hard |
 |--------|------------|----------|----------|----------|-----------|-----------|-----------|-----------|-----------|-----------|
-| **Uncertainty-Painted PointPillars** (Ours) | **76.52** | 90.10 | 87.81 | 84.46 | 63.57 | 59.56 | 57.05 | 85.80 | 82.20 | 76.68 |
-| PointPillars (No Uncertainty) | 75.78 | 89.95 | 87.53 | 85.02 | 62.62 | 58.13 | 56.66 | 85.35 | 81.69 | 79.61 |
-| *Delta (Gain from Uncertainty)* | *🟢 +0.74* | *🟢 +0.15* | *🟢 +0.28* | *🔴 -0.56* | *🟢 +0.95* | *🟢 +1.43* | *🟢 +0.39* | *🟢 +0.45* | *🟢 +0.51* | *🔴 -2.93* |
-| **Uncertainty-Painted SECOND** (Ours) | 79.08 | 97.10 | 88.62 | 86.41 | 69.26 | 67.19 | 65.00 | 88.15 | 81.43 | 79.85 |
+| Uncertainty-Painted PointPillars (Ours) | 76.52 | 90.10 | 87.81 | 84.46 | 63.57 | 59.56 | 57.05 | 85.80 | 82.20 | 76.68 |
+| Uncertainty-Painted SECOND (Ours) | 79.08 | 97.10 | 88.62 | 86.41 | 69.26 | 67.19 | 65.00 | 88.15 | 81.43 | 79.85 |
+| SECOND (No Uncertainty) | 80.17 | 90.12 | 88.46 | 86.66 | 69.99 | 67.90 | 65.33 | 90.97 | 84.14 | 81.98 |
+| *Delta (Gain from Uncertainty)* | *-1.09* | *+6.98* | *+0.16* | *-0.25* | *-0.73* | *-0.71* | *-0.33* | *-2.82* | *-2.71* | *-2.13* |
 
 ---
 
@@ -77,26 +77,23 @@ To verify the contribution of the uncertainty feature, we trained a model with *
 #### Car Detection (IoU = 0.70)
 | Method | Easy | Moderate | Hard |
 |--------|------|----------|------|
-| **Baseline (26 Feat)** | 90.10 | 87.81 | 84.46 |
-| **Ablation (25 Feat)** | 89.95 | 87.53 | 85.02 |
-| **Delta** | 🔴 -0.15 | 🔴 -0.28 | 🟢 +0.56 |
-
+| Baseline (26 Feat) | 90.10 | 87.81 | 84.46 |
+| Ablation (25 Feat) | 89.95 | 87.53 | 85.02 |
+| Delta | -0.15 | -0.28 | +0.56 |
 
 #### Pedestrian Detection (IoU = 0.50)
 | Method | Easy | Moderate | Hard |
 |--------|------|----------|------|
-| **Baseline (26 Feat)** | 63.57 | 59.56 | 57.05 |
-| **Ablation (25 Feat)** | 62.62 | 58.13 | 56.66 |
-| **Delta** | 🔴 -0.95 | **🔴 -1.43** | 🔴 -0.39 |
-
+| Baseline (26 Feat) | 63.57 | 59.56 | 57.05 |
+| Ablation (25 Feat) | 62.62 | 58.13 | 56.66 |
+| Delta | -0.95 | -1.43 | -0.39 |
 
 #### Cyclist Detection (IoU = 0.50)
 | Method | Easy | Moderate | Hard |
 |--------|------|----------|------|
-| **Baseline (26 Feat)** | 85.80 | 82.20 | 76.68 |
-| **Ablation (25 Feat)** | 85.35 | 81.69 | 79.61 |
-| **Delta** | 🔴 -0.45 | 🔴 -0.51 | 🟢 +2.93 |
-
+| Baseline (26 Feat) | 85.80 | 82.20 | 76.68 |
+| Ablation (25 Feat) | 85.35 | 81.69 | 79.61 |
+| Delta | -0.45 | -0.51 | +2.93 |
 
 **Analysis:**
 - **Pedestrians**: Removing uncertainty caused a consistent drop across all difficulty levels (Easy: -0.95, Mod: -1.43, Hard: -0.39), reinforcing that uncertainty helps significantly with this class.

@@ -1,8 +1,8 @@
-# Rich Semantic & Uncertainty-Aware Fusion for 3D Object Detection
+# Rich Semantic Painting for 3D Object Detection
 
-This repository implements **Uncertainty-Aware Feature Painting**, a sequential fusion method that enhances 3D object detection by leveraging **rich semantic context (21 classes)** and **predictive uncertainty**.
+This repository implements **Semantic Feature Painting**, investigating the impact of **rich semantic context (21 classes)** and **predictive uncertainty** on 3D object detection.
 
-Unlike standard fusion methods that rely on limited-class segmentation (e.g., just KITTI classes), we utilize an off-the-shelf segmentation model to inject dense, fine-grained semantic priors into the point cloud.
+Unlike standard fusion methods that rely on limited-class segmentation (e.g., just KITTI classes), we utilize an off-the-shelf segmentation model to inject dense, fine-grained semantic priors into the point cloud. While we hypothesized that **uncertainty** would improve robustness, our results show that the **rich class information** is the dominant factor.
 
 ---
 
@@ -67,10 +67,12 @@ The table below shows the Average Precision (AP) for 3D detection. Our method (U
 
 | Method | mAP (Mod.) | Car Easy | Car Mod. | Car Hard | Ped. Easy | Ped. Mod. | Ped. Hard | Cyc. Easy | Cyc. Mod. | Cyc. Hard |
 |--------|------------|----------|----------|----------|-----------|-----------|-----------|-----------|-----------|-----------|
-| **Uncertainty-Painted PointPillars** (Ours) | **76.52** | 90.10 | 87.81 | 84.46 | 63.57 | 59.56 | 57.05 | 85.80 | 82.20 | 76.68 |
+| Uncertainty-Painted PointPillars (Ours) | 76.52 | 90.10 | 87.81 | 84.46 | 63.57 | 59.56 | 57.05 | 85.80 | 82.20 | 76.68 |
 | PointPillars (No Uncertainty) | 75.78 | 89.95 | 87.53 | 85.02 | 62.62 | 58.13 | 56.66 | 85.35 | 81.69 | 79.61 |
 | *Delta (Gain from Uncertainty)* | *+0.74* | *+0.15* | *+0.28* | *-0.56* | *+0.95* | *+1.43* | *+0.39* | *+0.45* | *+0.51* | *-2.93* |
-| **Uncertainty-Painted SECOND** (Ours) | 79.08 | 97.10 | 88.62 | 86.41 | 69.26 | 67.19 | 65.00 | 88.15 | 81.43 | 79.85 |
+| Uncertainty-Painted SECOND (Ours) | 79.08 | 97.10 | 88.62 | 86.41 | 69.26 | 67.19 | 65.00 | 88.15 | 81.43 | 79.85 |
+| SECOND (No Uncertainty) | 80.17 | 90.12 | 88.46 | 86.66 | 69.99 | 67.90 | 65.33 | 90.97 | 84.14 | 81.98 |
+| *Delta (Gain from Uncertainty)* | *-1.09* | *+6.98* | *+0.16* | *-0.25* | *-0.73* | *-0.71* | *-0.33* | *-2.82* | *-2.71* | *-2.13* |
 
 ---
 
@@ -105,45 +107,29 @@ To confirm whether our gains came from the **richer semantics** (21 classes) or 
 **Car Detection (IoU = 0.70)**
 | Method | Easy | Moderate | Hard |
 |--------|------|----------|------|
-| **Baseline (26 Feat)** | 90.10 | 87.81 | 84.46 |
-| **Ablation (25 Feat)** | 89.95 | 87.53 | 85.02 |
+| Baseline (26 Feat) | 90.10 | 87.81 | 84.46 |
+| Ablation (25 Feat) | 89.95 | 87.53 | 85.02 |
 
 **Pedestrian Detection (IoU = 0.50)**
 | Method | Easy | Moderate | Hard |
 |--------|------|----------|------|
-| **Baseline (26 Feat)** | 63.57 | 59.56 | 57.05 |
-| **Ablation (25 Feat)** | 62.62 | 58.13 | 56.66 |
+| Baseline (26 Feat) | 63.57 | 59.56 | 57.05 |
+| Ablation (25 Feat) | 62.62 | 58.13 | 56.66 |
 
 **Cyclist Detection (IoU = 0.50)**
 | Method | Easy | Moderate | Hard |
 |--------|------|----------|------|
-| **Baseline (26 Feat)** | 85.80 | 82.20 | 76.68 |
-| **Ablation (25 Feat)** | 85.35 | 81.69 | 79.61 |
+| Baseline (26 Feat) | 85.80 | 82.20 | 76.68 |
+| Ablation (25 Feat) | 85.35 | 81.69 | 79.61 |
 
 #### Analysis & SOTA Performance
 Our results show that this approach is **highly competitive with State-of-the-Art (SOTA)** on the KITTI validation set.
 
-1.  **Rich Semantics Drive Baseline Performance:** The major performance driver is the use of **21-class semantic priors**. Even our "Ablation" model (25 features, No Uncertainty) achieves excellent results, confirming that this rich description allows the model to better distinguish objects.
-2.  **Uncertainty Adds Robustness:** Adding the **Uncertainty** channel (Baseline) provided further gains, particularly for **Pedestrians** (+1.43%) and ambiguous edge cases, improving the overall robustness of the system.
+1.  **Rich Semantics Drive Baseline Performance:** The major performance driver is the use of **21-class semantic priors**. Even our "Ablation" models (No Uncertainty) achieve excellent results, confirming that this rich description allows the model to better distinguish objects.
+**Conclusion:**
+The results strongly suggest that the **Rich Semantic Priors (21 classes)** are the primary reason for the high performance, not the uncertainty channel. The simple Shannon Entropy metric provides **minimal to no benefit** (and even slight regression in SECOND), likely because it does not capture true epistemic uncertainty or is redundant given the rich semantic feature vectors. Future work should focus on robustness via better calibration rather than simple entropy concatenation.
 
-This suggests that **Rich Semantics + Uncertainty** is a formidable combination: Rich Semantics raise the overall performance floor, while Uncertainty provides additional improvements for difficult cases.
 
----
-
-This suggests that **Rich Semantics + Uncertainty** is a formidable combination: Rich Semantics raise the overall performance floor, while Uncertainty provides additional improvements for difficult cases.
-
-### Qualitative Analysis: Where Uncertainty Helps
-We identified specific failure cases where the **Ablation Model (No Uncertainty)** failed to detect an object, but the **Baseline Model (With Uncertainty)** succeeded.
-
-**Comparative Visualization (Frame 006679 - Cyclist):**
-
-![Comparitive Failure Case](assets/failure_case_quad_006679.png)
-
-*   **Top-Left:** Raw Camera Image.
-*   **Top-Right:** 2D Box Projection (Green=Baseline, Red=Ablation).
-*   **Bottom-Left:** Projected Entropy (Red pixels = High Uncertainty).
-*   **Bottom-Right:** 3D BEV (Colored by Uncertainty).
-*   **Observation:** The cyclist is clearly visible in the image but is a difficult, sparse target in LiDAR (Bottom-Right). The **Entropy Projection (Bottom-Left)** shows hot-spots (red) exactly on the cyclist, indicating the network was uncertain about this region. This uncertainty likely guided the Baseline model to correctly detect it (Green Box), while the Ablation model missed it.
 
 ## Future Work
 
