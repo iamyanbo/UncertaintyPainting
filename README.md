@@ -69,7 +69,15 @@ The table below shows the Average Precision (AP) for 3D detection. Our method (U
 |--------|------------|----------|----------|----------|-----------|-----------|-----------|-----------|-----------|-----------|
 | **Uncertainty-Painted PointPillars** (Ours) | **76.52** | 90.10 | 87.81 | 84.46 | 63.57 | 59.56 | 57.05 | 85.80 | 82.20 | 76.68 |
 | PointPillars (No Uncertainty) | 75.78 | 89.95 | 87.53 | 85.02 | 62.62 | 58.13 | 56.66 | 85.35 | 81.69 | 79.61 |
-| *Delta (Gain from Uncertainty)* | *![](https://via.placeholder.com/15/2ea44f/000000?text=+) 0.74* | *![](https://via.placeholder.com/15/2ea44f/000000?text=+) 0.15* | *![](https://via.placeholder.com/15/2ea44f/000000?text=+) 0.28* | *![](https://via.placeholder.com/15/f03c15/000000?text=-) 0.56* | *![](https://via.placeholder.com/15/2ea44f/000000?text=+) 0.95* | *![](https://via.placeholder.com/15/2ea44f/000000?text=+) 1.43* | *![](https://via.placeholder.com/15/2ea44f/000000?text=+) 0.39* | *![](https://via.placeholder.com/15/2ea44f/000000?text=+) 0.45* | *![](https://via.placeholder.com/15/2ea44f/000000?text=+) 0.51* | *![](https://via.placeholder.com/15/f03c15/000000?text=-) 2.93* |
+
+```diff
+! Delta Summary (Gain from Uncertainty)
++ mAP (Mod): +0.74
++ Car:       +0.15 (Easy)   +0.28 (Mod)    -0.56 (Hard)
++ Pedestrian:+0.95 (Easy)   +1.43 (Mod)    +0.39 (Hard)
++ Cyclist:   +0.45 (Easy)   +0.51 (Mod)    -2.93 (Hard)
+```
+
 | **Uncertainty-Painted SECOND** (Ours) | 79.08 | 97.10 | 88.62 | 86.41 | 69.26 | 67.19 | 65.00 | 88.15 | 81.43 | 79.85 |
 
 ---
@@ -107,21 +115,42 @@ To confirm whether our gains came from the **richer semantics** (21 classes) or 
 |--------|------|----------|------|
 | **Baseline (26 Feat)** | 90.10 | 87.81 | 84.46 |
 | **Ablation (25 Feat)** | 89.95 | 87.53 | 85.02 |
-| **Delta** | ![](https://via.placeholder.com/15/f03c15/000000?text=-) 0.15 | ![](https://via.placeholder.com/15/f03c15/000000?text=-) 0.28 | ![](https://via.placeholder.com/15/2ea44f/000000?text=+) 0.56 |
+
+```diff
+! Delta (Car)
+- Easy:     -0.15
+- Moderate: -0.28
++ Hard:     +0.56
+```
+
 
 **Pedestrian Detection (IoU = 0.50)**
 | Method | Easy | Moderate | Hard |
 |--------|------|----------|------|
 | **Baseline (26 Feat)** | 63.57 | 59.56 | 57.05 |
 | **Ablation (25 Feat)** | 62.62 | 58.13 | 56.66 |
-| **Delta** | ![](https://via.placeholder.com/15/f03c15/000000?text=-) 0.95 | **![](https://via.placeholder.com/15/f03c15/000000?text=-) 1.43** | ![](https://via.placeholder.com/15/f03c15/000000?text=-) 0.39 |
+
+```diff
+! Delta (Pedestrian)
+- Easy:     -0.95
+- Moderate: -1.43
+- Hard:     -0.39
+```
+
 
 **Cyclist Detection (IoU = 0.50)**
 | Method | Easy | Moderate | Hard |
 |--------|------|----------|------|
 | **Baseline (26 Feat)** | 85.80 | 82.20 | 76.68 |
 | **Ablation (25 Feat)** | 85.35 | 81.69 | 79.61 |
-| **Delta** | ![](https://via.placeholder.com/15/f03c15/000000?text=-) 0.45 | ![](https://via.placeholder.com/15/f03c15/000000?text=-) 0.51 | ![](https://via.placeholder.com/15/2ea44f/000000?text=+) 2.93 |
+
+```diff
+! Delta (Cyclist)
+- Easy:     -0.45
+- Moderate: -0.51
++ Hard:     +2.93
+```
+
 
 #### Analysis & SOTA Performance
 Our results show that this approach is **highly competitive with State-of-the-Art (SOTA)** on the KITTI validation set.
