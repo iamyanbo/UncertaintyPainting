@@ -20,16 +20,16 @@ Here we see the 3D LiDAR point cloud "painted" with the rich feature vector (21 
 
 ---
 
-## Implementation: The Power of Rich Semantics
+## Implementation
 
 The core innovation of this work is twofold: using **Rich Semantic Priors** and adding an **Uncertainty Channel**.
 
-### 1. Rich Semantic Context (The "Happy Accident")
+### 1. Rich Semantic Context
 Standard **PointPainting** implementations typically train a segmentation network specifically on the target dataset (e.g., KITTI) to output probabilities for `Car`, `Pedestrian`, `Cyclist`, and `Background`.
 
 In contrast, we use a **DeepLabV3+ model pre-trained on Pascal VOC**, which outputs probabilities for **21 classes** (Airplane, Bicycle, Bird, Boat, Bottle, Bus, Car, Cat, Chair, Cow, Table, Dog, Horse, Motorbike, Person, Plant, Sheep, Sofa, Train, TV, Background).
 
-**The "Happy Accident":**
+**Rich Semantics Realization:**
 This choice was originally unintentional, we selected the pre-trained VOC model simply for implementation convenience to avoid training a custom segmentation network on KITTI. We did not initially realize that this richer class set (21 vs 4) would end up being the primary driver of our superior performance.
 
 **Why this matters:**
