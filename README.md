@@ -61,7 +61,7 @@ This results in an input feature dimension of $N_{features} = 4 + K + 1$.
 
 ## Performance & Latency
 
-We measured the end-to-end latency of the pipeline on a standard GPU workstation (RTX 3090 equivalent). The total latency is approximately **173 ms** per frame (**~5.8 FPS**).
+We measured the end-to-end latency of the pipeline on a standard GPU workstation (RTX 3060 Ti). The total latency is approximately **173 ms** per frame (**~5.8 FPS**).
 
 **Latency Breakdown:**
 
