@@ -8,7 +8,7 @@
 |--------|------------|----------|----------|----------|-----------|-----------|-----------|-----------|-----------|-----------|
 | **Uncertainty-Painted PointPillars** (Ours) | **76.52** | 90.10 | 87.81 | 84.46 | 63.57 | 59.56 | 57.05 | 85.80 | 82.20 | 76.68 |
 | PointPillars (No Uncertainty) | 75.78 | 89.95 | 87.53 | 85.02 | 62.62 | 58.13 | 56.66 | 85.35 | 81.69 | 79.61 |
-| *Delta (Gain from Uncertainty)* | *+0.74* | *+0.15* | *+0.28* | *-0.56* | *+0.95* | *+1.43* | *+0.39* | *+0.45* | *+0.51* | *-2.93* |
+| *Delta (Gain from Uncertainty)* | *$\color{green}{+0.74}$* | *$\color{green}{+0.15}$* | *$\color{green}{+0.28}$* | *$\color{red}{-0.56}$* | *$\color{green}{+0.95}$* | *$\color{green}{+1.43}$* | *$\color{green}{+0.39}$* | *$\color{green}{+0.45}$* | *$\color{green}{+0.51}$* | *$\color{red}{-2.93}$* |
 | **Uncertainty-Painted SECOND** (Ours) | 79.08 | 97.10 | 88.62 | 86.41 | 69.26 | 67.19 | 65.00 | 88.15 | 81.43 | 79.85 |
 
 ---
@@ -79,21 +79,21 @@ To verify the contribution of the uncertainty feature, we trained a model with *
 |--------|------|----------|------|
 | **Baseline (26 Feat)** | 90.10 | 87.81 | 84.46 |
 | **Ablation (25 Feat)** | 89.95 | 87.53 | 85.02 |
-| **Delta** | -0.15 | -0.28 | +0.56 |
+| **Delta** | $\color{red}{-0.15}$ | $\color{red}{-0.28}$ | $\color{green}{+0.56}$ |
 
 #### Pedestrian Detection (IoU = 0.50)
 | Method | Easy | Moderate | Hard |
 |--------|------|----------|------|
 | **Baseline (26 Feat)** | 63.57 | 59.56 | 57.05 |
 | **Ablation (25 Feat)** | 62.62 | 58.13 | 56.66 |
-| **Delta** | -0.95 | **-1.43** | -0.39 |
+| **Delta** | $\color{red}{-0.95}$ | **$\color{red}{-1.43}$** | $\color{red}{-0.39}$ |
 
 #### Cyclist Detection (IoU = 0.50)
 | Method | Easy | Moderate | Hard |
 |--------|------|----------|------|
 | **Baseline (26 Feat)** | 85.80 | 82.20 | 76.68 |
 | **Ablation (25 Feat)** | 85.35 | 81.69 | 79.61 |
-| **Delta** | -0.45 | -0.51 | +2.93 |
+| **Delta** | $\color{red}{-0.45}$ | $\color{red}{-0.51}$ | $\color{green}{+2.93}$ |
 
 **Analysis:**
 - **Pedestrians**: Removing uncertainty caused a consistent drop across all difficulty levels (Easy: -0.95, Mod: -1.43, Hard: -0.39), reinforcing that uncertainty helps significantly with this class.
