@@ -125,7 +125,8 @@ To confirm whether our gains came from the **richer semantics** (21 classes) or 
 #### Analysis & SOTA Performance
 Our results show that this approach is **highly competitive with State-of-the-Art (SOTA)** on the KITTI validation set.
 
-1.  **Rich Semantics Drive Baseline Performance:** The major performance driver is the use of **21-class semantic priors**. Even our "Ablation" models (No Uncertainty) achieve excellent results, confirming that this rich description allows the model to better distinguish objects.
+**Rich Semantics Drive Baseline Performance:** The major performance driver is the use of **21-class semantic priors**. Even our "Ablation" models (No Uncertainty) achieve excellent results, confirming that this rich description allows the model to better distinguish objects.
+
 **Conclusion:**
 The results strongly suggest that the **Rich Semantic Priors (21 classes)** are the primary reason for the high performance, not the uncertainty channel. The simple Shannon Entropy metric provides **minimal to no benefit** (and even slight regression in SECOND), likely because it does not capture true epistemic uncertainty or is redundant given the rich semantic feature vectors. Future work should focus on robustness via better calibration rather than simple entropy concatenation.
 

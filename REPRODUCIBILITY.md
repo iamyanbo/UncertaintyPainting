@@ -183,7 +183,11 @@ To verify the impact of removing the uncertainty feature (using 25 features inst
 The configuration `pointpillar_painted_no_uncert.yaml` is pre-configured to ignore the uncertainty channel.
 
 ```bash
-python train.py --cfg_file cfgs/kitti_models/pointpillar_painted_no_uncert.yaml --batch_size 4 --epochs 80
+# PointPillars (Painted, 25 Features, No Uncertainty)
+python tools/train.py --cfg_file tools/cfgs/kitti_models/pointpillar_painted_no_uncertainty.yaml --batch_size 4 --workers 4
+
+# SECOND (Painted, 25 Features, No Uncertainty)
+python tools/train.py --cfg_file tools/cfgs/kitti_models/second_painted_no_uncertainty.yaml --batch_size 4 --workers 4
 ```
 
 ### 6.2 Evaluate Ablation Model
