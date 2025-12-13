@@ -4,8 +4,8 @@ from .segmentation import UncertaintyPainter2D
 from .projection import Calibration, filter_points_in_image
 
 class FeaturePainter:
-    def __init__(self, segmentation_model_name='deeplabv3_resnet50'):
-        self.segmentor = UncertaintyPainter2D(model_name=segmentation_model_name)
+    def __init__(self, segmentation_model_name='deeplabv3_resnet50', uncertainty_method='entropy', model_path=None):
+        self.segmentor = UncertaintyPainter2D(model_name=segmentation_model_name, uncertainty_method=uncertainty_method, model_path=model_path)
 
     def paint(self, image_path, lidar_points, calib):
         """

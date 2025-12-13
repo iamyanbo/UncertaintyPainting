@@ -27,7 +27,6 @@ def main():
     
     if not os.path.exists(painted_path):
         print(f"Error: Painted file not found at {painted_path}")
-        print("Did you run scripts/04_process_dataset.py for this sample?")
         return
         
     if not os.path.exists(calib_path):
@@ -40,11 +39,18 @@ def main():
     
     # Extract channels
     xyz = points[:, :3]
+    
+    # Class Scores (Indices 4 to 24 covers 21 classes)
+    class_scores = points[:, 4:25] 
+    pred_labels = np.argmax(class_scores, axis=1) # (N,)
+    
+    # Uncertainty (Index 25)
     entropy = points[:, -1]
     
     print(f"Loaded sample {args.idx}")
     print(f"Points: {points.shape[0]}")
     print(f"Entropy Range: [{np.min(entropy):.4f}, {np.max(entropy):.4f}]")
+    print(f"Classes Found: {np.unique(pred_labels)}")
     
     # 2. Project to Image for Visualization
     calib = Calibration(calib_path)
@@ -57,18 +63,28 @@ def main():
     
     pts_valid = pts_2d[mask]
     entropy_valid = entropy[mask]
+    labels_valid = pred_labels[mask]
     
     # 3. Plot
-    plt.figure(figsize=(12, 4))
-    plt.title(f"Sample {args.idx}: Painted Uncertainty (Entropy)")
-    plt.xlim(0, W)
-    plt.ylim(H, 0)
+    fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(12, 10))
     
-    # Scatter plot colored by entropy
-    sc = plt.scatter(pts_valid[:, 0], pts_valid[:, 1], c=entropy_valid, cmap='inferno', s=2)
-    plt.colorbar(sc, label='Entropy')
+    # Plot 1: Uncertainty
+    ax1.set_title(f"Sample {args.idx}: Uncertainty (Entropy)")
+    ax1.set_xlim(0, W)
+    ax1.set_ylim(H, 0)
+    sc1 = ax1.scatter(pts_valid[:, 0], pts_valid[:, 1], c=entropy_valid, cmap='inferno', s=2)
+    plt.colorbar(sc1, ax=ax1, label='Entropy')
     
-    output_path = f"data/view_result_{args.idx}.png"
+    # Plot 2: Classification
+    # Use a qualitative colormap (tab20) since classes are discrete
+    ax2.set_title(f"Sample {args.idx}: Predicted Semantic Class")
+    ax2.set_xlim(0, W)
+    ax2.set_ylim(H, 0)
+    sc2 = ax2.scatter(pts_valid[:, 0], pts_valid[:, 1], c=labels_valid, cmap='tab20', s=2, vmin=0, vmax=20)
+    plt.colorbar(sc2, ax=ax2, label='Class ID (VOC)')
+    
+    plt.tight_layout()
+    output_path = f"data/view_result_{args.idx}_dual.png"
     plt.savefig(output_path)
     print(f"Visualization saved to {output_path}")
 

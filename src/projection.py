@@ -12,10 +12,18 @@ class Calibration:
         self.P2 = self.calib['P2'].reshape(3, 4)
         
         # Rigid transform from Velodyne coord to reference camera coord
-        self.Tr_velo_to_cam = self.calib['Tr_velo_to_cam'].reshape(3, 4)
+        if 'Tr_velo_to_cam' in self.calib:
+            self.Tr_velo_to_cam = self.calib['Tr_velo_to_cam'].reshape(3, 4)
+        else:
+            self.Tr_velo_to_cam = self.calib['Tr_velo_cam'].reshape(3, 4)
         
         # Rotation from reference camera coord to rect camera coord
-        self.R0_rect = self.calib['R0_rect'].reshape(3, 3)
+        if 'R0_rect' in self.calib:
+            self.R0_rect = self.calib['R0_rect'].reshape(3, 3)
+        elif 'R_rect' in self.calib:
+             self.R0_rect = self.calib['R_rect'].reshape(3, 3)
+        else:
+            raise KeyError(f"Neither R0_rect nor R_rect found. Keys: {list(self.calib.keys())}")
 
     def read_calib_file(self, filepath):
         data = {}
@@ -23,7 +31,17 @@ class Calibration:
             for line in f.readlines():
                 line = line.strip()
                 if not line: continue
-                key, value = line.split(':', 1)
+                
+                if ':' in line:
+                    key, value = line.split(':', 1)
+                else:
+                    # Handle Tr_velo_cam which might imply space separation
+                    parts = line.split(None, 1) # Split on first whitespace
+                    if len(parts) == 2:
+                        key, value = parts
+                    else:
+                        continue
+                        
                 try:
                     data[key] = np.array([float(x) for x in value.split()])
                 except ValueError:
