@@ -181,9 +181,9 @@ The EDL model achieves comparable performance to the state-of-the-art, but with 
 
 | Class | Easy | Moderate | Hard |
 |-------|------|----------|------|
-| Car | 97.67% | 93.22% | 92.85% |
-| Pedestrian | 66.63% | 60.21% | 58.00% |
-| Cyclist | 84.26% | 74.75% | 70.81% |
+| Car | 97.67 | 93.22 | 92.85 |
+| Pedestrian | 66.63 | 60.21 | 58.00 |
+| Cyclist | 84.26 | 74.75 | 70.81 |
 
 ### Uncertainty Analysis Graph
 The graph below visualizes the relationship between predictive uncertainty and detection correctness.
@@ -191,29 +191,22 @@ The graph below visualizes the relationship between predictive uncertainty and d
 ![Uncertainty Analysis](assets/uncertainty_analysis_80ep.png)
 
 ### Interpreting Accuracy vs. Uncertainty
-The relationship between accuracy and uncertainty reveals the model's self-awareness:
+The relationship between accuracy and uncertainty reveals the model's self-awareness. In the low uncertainty range ($u < 0.86$), the accuracy is nearly **100%**, meaning when the model is certain, it is almost always correct.
 
-1.  **Low Uncertainty = High Reliability**:
-    *   In the low uncertainty range ($u < 0.86$), the accuracy is nearly **100%**.
-    *   **Meaning**: When the model is certain, it is almost always correct.
-2.  **High Uncertainty = Correct Rejection (0% Accuracy)**:
-    *   In the high uncertainty range ($u > 0.86$), the accuracy drops to **0%**.
-    *   **Meaning**: This does **not** mean the model is failing. Instead, it means the model is **correctly identifying artifacts** (background noise, walls, bushes) that are *not* objects. By assigning them high uncertainty, it signals that these detections should be ignored.
+Conversely, in the high uncertainty range ($u > 0.86$), the accuracy drops to **0%**. This does **not** mean the model is failing. Instead, it means the model is **correctly identifying artifacts** (background noise, walls, bushes) that are *not* objects. By assigning them high uncertainty, it signals that these detections should be ignored.
 
 ### Detailed Background Suppression Analysis
 A critical component of 3D object detection is the ability to reject false positives from the millions of candidate anchors generated during inference. We observed that the EDL formulation effectively segregates these candidates.
 
 **Understanding the "200,000 Points":**
-During evaluation, the model generated approximately **200,000 candidate detections** that were classified as "Background" (False Positives).
-*   **Significance**: These represent the vast majority of the "negative" search space—walls, vegetation, road surfaces, and sensor noise that passed the initial detection threshold.
-*   **Behavior**: The model assigns these candidates to the **Highest Uncertainty** bin ($u \in [0.86, 1.00]$).
-*   **Implication**: The model has learned to express "I don't know" for these ambiguous structures rather than confidently classifying them as objects.
+During evaluation, the model generated approximately **200,000 candidate detections** that were classified as "Background" (False Positives). These represent the vast majority of the "negative" search space—walls, vegetation, road surfaces, and sensor noise that passed the initial detection threshold.
+
+The model assigns these candidates to the **Highest Uncertainty** bin ($u \in [0.86, 1.00]$). This implies the model has learned to express "I don't know" for these ambiguous structures rather than confidently classifying them as objects.
 
 ### Practical Implications: Safety & Control
-Beyond simple accuracy metrics, the calibrated uncertainty serves as a critical signal for downstream path planning and control:
+Beyond simple accuracy metrics, the calibrated uncertainty serves as a critical signal for downstream path planning and control. High uncertainty is a reliable predictor of Out-of-Distribution (OOD) data or ambiguous scenarios. Instead of treating every detection as binary (Exist/Not Exist), the planner can use the uncertainty channel to trigger **precautionary maneuvers** (e.g., slowing down, widening safety margins) when navigating near uncertain regions.
 
-*   **Precautionary Planning**: High uncertainty is a reliable predictor of Out-of-Distribution (OOD) data or ambiguous scenarios. Instead of treating every detection as binary (Exist/Not Exist), the planner can use the uncertainty channel to trigger **precautionary maneuvers** (e.g., slowing down, widening safety margins) when navigating near uncertain regions.
-*   **Active Safety**: The sharp separation between real objects and background noise allows the system to filter actionable obstacles without aggressive thresholding that might miss true positives.
+Additionally, the sharp separation between real objects and background noise allows the system to filter actionable obstacles without aggressive thresholding that might miss true positives.
 
 #### Class: Car (Distribution of Candidates)
 | Uncertainty ($u$) | True Positives (Cars) | False Positives (Background) | Accuracy |
